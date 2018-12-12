@@ -116,7 +116,7 @@ ideogram(karyotype, mydata, NULL, c("navy", "white", "firebrick3"), 100, 80, 25,
 svg2pdf(svgfile, pdffile)
 ```
 
-![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example6.jpg)
+![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example7.jpg)
 
 # THANKS
 Welcome to any suggestions and discussions.
