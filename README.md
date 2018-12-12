@@ -58,7 +58,7 @@ svg2pdf(svgfile, pdffile)
 ```
 Then, you will find a PDF file in your Working Directory.
 
-![image](https://github.com/TickingClock1992/Idiogram-plotting/blob/master/image/data_1.jpg)
+![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example1.jpg)
 
 If you want to change the color of heatmap, you can modify the argument 'colorset', i.e., "c("navy", "white", "firebrick3")". You can use either color names as listed by `colors()` or hexadecimal strings of the form "#rrggbb" or "#rrggbbaa".<br>
 ```
@@ -66,7 +66,7 @@ ideogram(karyotype, mydata, mydata_interval, c("#4E7DB8", "#FEF8B5", "#D73027"),
 svg2pdf(svgfile, pdffile)
 ```
 
-![image](https://github.com/TickingClock1992/Idiogram-plotting/blob/master/image/data_1.jpg)
+![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example2.jpg)
 
 If you don not know the centromere information in your species, you don not need to modify the script. In this case, the 'karyotype' file has only three columns.<br>
 To simulate this case, we deleted the last two columns of the 'karyotype' file.
@@ -75,7 +75,7 @@ karyotype <- karyotype[,1:3]
 ideogram(karyotype, mydata, mydata_interval, c("navy", "white", "firebrick3"), 170, 160, 35, svgfile)
 svg2pdf(svgfile, pdffile)
 ```
-![image](https://github.com/TickingClock1992/Idiogram-plotting/blob/master/image/data_1.jpg)
+![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example3.jpg)
 
 If there are only ten chromosomes in your sepcies, maybe you need to motify the argument 'width', i.e., "170".<br>
 To simulate this case, we only keep the first ten columns of the 'karyotype' file.<br>
@@ -87,7 +87,7 @@ ideogram(karyotype, mydata, mydata_interval, c("navy", "white", "firebrick3"), 1
 svg2pdf(svgfile, pdffile)
 ```
 
-![image](https://github.com/TickingClock1992/Idiogram-plotting/blob/master/image/data_1.jpg)
+![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example4.jpg)
 
 After
 ```
@@ -96,7 +96,7 @@ ideogram(karyotype, mydata, mydata_interval, c("navy", "white", "firebrick3"), 1
 svg2pdf(svgfile, pdffile)
 ```
 
-![image](https://github.com/TickingClock1992/Idiogram-plotting/blob/master/image/data_1.jpg)
+![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example5.jpg)
 
 If you want to move the Legend, then you need to modify the argument 'Lx' and 'Ly', i.e., "160" and "35".<br>
 'Lx' means the distance between upper-left point of the Legend and the leaf margin; 'Ly' means the distance between upper-left point of the Legend and the upper margin.
@@ -107,7 +107,7 @@ ideogram(karyotype, mydata, mydata_interval, c("navy", "white", "firebrick3"), 1
 svg2pdf(svgfile, pdffile)
 ```
 
-![image](https://github.com/TickingClock1992/Idiogram-plotting/blob/master/image/data_1.jpg)
+![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example6.jpg)
 
 If you don't want to plot the label, then you just need to modify the argument 'label', i.e., "mydata_interval".
 ```
@@ -116,6 +116,7 @@ ideogram(karyotype, mydata, NULL, c("navy", "white", "firebrick3"), 100, 80, 25,
 svg2pdf(svgfile, pdffile)
 ```
 
-![image](https://github.com/TickingClock1992/Idiogram-plotting/blob/master/image/data_1.jpg)
+![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example6.jpg)
 
-# 
+# THANKS
+Welcome to any suggestions and discussions.
