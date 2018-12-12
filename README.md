@@ -61,6 +61,16 @@ Then, you will find a PDF file in your Working Directory.
 ![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example1.jpg)
 
 If you want to change the color of heatmap, you can modify the argument 'colorset', i.e., "c("navy", "white", "firebrick3")". You can use either color names as listed by `colors()` or hexadecimal strings of the form "#rrggbb" or "#rrggbbaa".<br>
+We recommend the following colorset:<br>
+c("#d8b365", "#f5f5f5", "#5ab4ac")<br>
+c("#e9a3c9", "#f7f7f7", "#a1d76a")<br>
+c("#af8dc3", "#f7f7f7", "#7fbf7b")<br>
+c("#f1a340", "#f7f7f7", "#998ec3")<br>
+c("#ef8a62", "#f7f7f7", "#67a9cf")<br>
+c("#ef8a62", "#ffffff", "#999999")<br>
+c("#fc8d59", "#ffffbf", "#91bfdb")<br>
+c("#fc8d59", "#ffffbf", "#91cf60")<br>
+c("#fc8d59", "#ffffbf", "#99d594")<br>
 ```
 ideogram(karyotype, mydata, mydata_interval, c("#4E7DB8", "#FEF8B5", "#D73027"), 170, 160, 35, svgfile)
 svg2pdf(svgfile, pdffile)
