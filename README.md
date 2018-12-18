@@ -1,6 +1,6 @@
 # RIdeogram
 
-RIdeogram is a R package to draw the chromosome ideograms based on Scalable Vector Graphics (SVG; http://tutorials.jenkov.com/svg/index.html).
+RIdeogram is a R package to draw SVG graphics to visualize and map genome-wide data in idiograms (Scalable Vector Graphics http://tutorials.jenkov.com/svg/index.html).
 
 # Installation
 
