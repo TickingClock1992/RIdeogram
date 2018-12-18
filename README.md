@@ -97,7 +97,7 @@ svg2jpg("chromosome.svg", jpgfile)
 
 ![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example4.jpg)
 
-If you want to change the color of heatmap, you can modify the argument 'colorset'. You can use either color names as listed by `colors()` or hexadecimal strings of the form "#rrggbb" or "#rrggbbaa".<br>
+If you want to change the color of heatmap, you can modify the argument 'colorset' (default set is colorset = c("#4575b4", "#ffffbf", "#d73027")). You can use either color names as listed by `colors()` or hexadecimal strings of the form "#rrggbb" or "#rrggbbaa".<br>
 ```
 ideogram(karyotype = human_karyotype, overlaid = gene_density, label = Random_RNAs_500, colorset = c("#fc8d59", "#ffffbf", "#91bfdb"))
 svg2jpg("chromosome.svg", jpgfile)
@@ -114,7 +114,7 @@ svg2jpg("chromosome.svg", jpgfile)
 ```
 ![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example6.jpg)
 
-If there are only ten chromosomes in your sepcies, maybe you need to motify the argument 'width', i.e., "170".<br>
+If there are only ten chromosomes in your sepcies, maybe you need to motify the argument 'width' (default value is "170").<br>
 To simulate this case, we only keep the first ten columns of the 'human_karyotype' file.<br>
 
 Before
@@ -135,11 +135,11 @@ svg2jpg("chromosome.svg", jpgfile)
 
 ![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example8.jpg)
 
-If you want to move the Legend, then you need to modify the argument 'Lx' and 'Ly', i.e., "160" and "35".<br>
+If you want to move the Legend, then you need to modify the argument 'Lx' and 'Ly'(default values are "160" and "35", separately).<br>
 'Lx' means the distance between upper-left point of the Legend and the leaf margin; 'Ly' means the distance between upper-left point of the Legend and the upper margin.
 
 ```
-ideogram(karyotype, mydata, mydata_interval, c("navy", "white", "firebrick3"), 100, 80, 25, svgfile)
+ideogram(karyotype, mydata, mydata_interval, c("navy", "white", "firebrick3"), width = 100, Lx = 80, Ly = 25)
 svg2pdf(svgfile, pdffile)
 ```
 
