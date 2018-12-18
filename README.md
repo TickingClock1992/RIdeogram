@@ -26,107 +26,124 @@ First, you need to load the package after you installed it.
 ```
 require(RIdeogram)
 ```
-Then, you need to load the data. <br>
-(Or, you can load your own data by using the function "read.table")
+Then, you need to load the data from the RIdeogram package. 
 ```
-data(karyotype, package="RIdeogram")
-data(mydata, package="RIdeogram")
-data(mydata_interval, package="RIdeogram")
+data(human_karyotype, package="RIdeogram")
+data(gene_density, package="RIdeogram")
+data(Random_RNAs_500, package="RIdeogram")
 ```
 You can use the function "head()" to see the data format.
 ```
-head(karyotype)
-head(mydata)
-head(mydata_interval)
+head(human_karyotype)
 ```
 Specifically, the 'karyotype' file contains the karyotype information and has five columns (or three, see below). The first column is Chromosome ID, the second and thrid columns are start and end positions of corresponding chromosomes and the fourth and fifth columns are start and end positions of corresponding centromeres.<br>
 
+```
+head(gene_density)
+```
 The 'mydata' file contains the heatmap information and has four columns. The first column is Chromosome ID, the second and thrid columns are start and end positions of windows in corresponding chromosomes and the fourth column is a characteristic value in corresponding windows, such as gene number.<br>
 
+```
+head(Random_RNAs_500)
+```
 The 'mydata_interval' file contains the label information and has six columns. The first column is the label type, the second column is the shape of label with three available options of box, triangle and circle, the third column is Chromosome ID, the fourth and fifth columns are the start and end positions of corresponding labels in the chromosomes and the sixth column is the color of the label.<br>
 
+Or, you can also load your own data by using the function "read.table", such as
+```
+human_karyotype <- read.table("karyotype.txt", sep = "\t", header = T, stringsAsFactors = F)
+gene_density <- read.table("data_1.txt", sep = "\t", header = T, stringsAsFactors = F)
+Random_RNAs_500 <- read.table("data_2.txt", sep = "\t", header = T, stringsAsFactors = F)
+```
+The "karyotype.txt" file contains karyotype information; the "data_1.txt" file contains heatmap data; the "data_2.txt" contains track label data.<br>
+
 These three files are all you need, now you can visualize these information using the 'ideogram' function.<br>
+
 Basic usage
 ```
-ideogram(karyotype, overlaid, label = NULL, colorset, width, Lx, Ly, output = "chromosome.svg")
+ideogram(karyotype, overlaid = NULL, label = NULL, colorset, width, Lx, Ly, output = "chromosome.svg")
 ```
 
-Now, let's begin.
+Now, let's begin.<br>
+First, we draw a idiogram with no mapping data.
 ```
-ideogram(karyotype, mydata, mydata_interval, c("navy", "white", "firebrick3"), 170, 160, 35, svgfile)
-svg2pdf(svgfile, pdffile)
+ideogram(karyotype = human_karyotype)
+svg2jpg("chromosome.svg", jpgfile)
 ```
-Then, you will find a PDF file in your Working Directory.
+Then, you will find a SVG file and a JPEG file in your Working Directory.
 
 ![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example1.jpg)
 
-If you want to change the color of heatmap, you can modify the argument 'colorset', i.e., "c("navy", "white", "firebrick3")". You can use either color names as listed by `colors()` or hexadecimal strings of the form "#rrggbb" or "#rrggbbaa".<br>
-We recommend the following colorset:<br>
-c("#d8b365", "#f5f5f5", "#5ab4ac")<br>
-c("#e9a3c9", "#f7f7f7", "#a1d76a")<br>
-c("#af8dc3", "#f7f7f7", "#7fbf7b")<br>
-c("#f1a340", "#f7f7f7", "#998ec3")<br>
-c("#ef8a62", "#f7f7f7", "#67a9cf")<br>
-c("#ef8a62", "#ffffff", "#999999")<br>
-c("#fc8d59", "#ffffbf", "#91bfdb")<br>
-c("#fc8d59", "#ffffbf", "#91cf60")<br>
-c("#fc8d59", "#ffffbf", "#99d594")<br>
+Then, we can map genome-wide data in chromosomes. In this case, we visulize the gene density across the human genome.
 ```
-ideogram(karyotype, mydata, mydata_interval, c("#4E7DB8", "#FEF8B5", "#D73027"), 170, 160, 35, svgfile)
-svg2pdf(svgfile, pdffile)
+ideogram(karyotype = human_karyotype, overlaid = gene_density)
+svg2jpg("chromosome.svg", jpgfile)
 ```
 
 ![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example2.jpg)
 
-If you don not know the centromere information in your species, you don not need to modify the script. In this case, the 'karyotype' file has only three columns.<br>
-To simulate this case, we deleted the last two columns of the 'karyotype' file.
+We can also map some genome-wide data with track labels next to the chromosomes.
 ```
-karyotype <- karyotype[,1:3]
-ideogram(karyotype, mydata, mydata_interval, c("navy", "white", "firebrick3"), 170, 160, 35, svgfile)
-svg2pdf(svgfile, pdffile)
+ideogram(karyotype = human_karyotype, label = Random_RNAs_500)
+svg2jpg("chromosome.svg", jpgfile)
 ```
+
 ![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example3.jpg)
 
-If there are only ten chromosomes in your sepcies, maybe you need to motify the argument 'width', i.e., "170".<br>
-To simulate this case, we only keep the first ten columns of the 'karyotype' file.<br>
-
-Before
+We can also map the overlaid heatmap and track labels in chromosomes at the same time.
 ```
-karyotype <- karyotype[1:10,]
-ideogram(karyotype, mydata, mydata_interval, c("navy", "white", "firebrick3"), 170, 160, 35, svgfile)
-svg2pdf(svgfile, pdffile)
+ideogram(karyotype = human_karyotype, overlaid = gene_density, label = Random_RNAs_500)
+svg2jpg("chromosome.svg", jpgfile)
 ```
 
 ![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example4.jpg)
 
-After
+If you want to change the color of heatmap, you can modify the argument 'colorset'. You can use either color names as listed by `colors()` or hexadecimal strings of the form "#rrggbb" or "#rrggbbaa".<br>
 ```
-karyotype <- karyotype[1:10,]
-ideogram(karyotype, mydata, mydata_interval, c("navy", "white", "firebrick3"), 100, 160, 35, svgfile)
-svg2pdf(svgfile, pdffile)
+ideogram(karyotype = human_karyotype, overlaid = gene_density, label = Random_RNAs_500, colorset = c("#fc8d59", "#ffffbf", "#91bfdb"))
+svg2jpg("chromosome.svg", jpgfile)
 ```
 
 ![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example5.jpg)
+
+If you don not know the centromere information in your species, you don not need to modify the script. In this case, the 'karyotype' file has only three columns.<br>
+To simulate this case, we deleted the last two columns of the 'human_karyotype' file.
+```
+human_karyotype <- human_karyotype[,1:3]
+ideogram(karyotype = human_karyotype, overlaid = gene_density, label = Random_RNAs_500)
+svg2jpg("chromosome.svg", jpgfile)
+```
+![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example6.jpg)
+
+If there are only ten chromosomes in your sepcies, maybe you need to motify the argument 'width', i.e., "170".<br>
+To simulate this case, we only keep the first ten columns of the 'human_karyotype' file.<br>
+
+Before
+```
+human_karyotype <- human_karyotype[1:10,]
+ideogram(karyotype = human_karyotype, overlaid = gene_density, label = Random_RNAs_500)
+svg2jpg("chromosome.svg", jpgfile)
+```
+
+![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example7.jpg)
+
+After
+```
+human_karyotype <- human_karyotype[1:10,]
+ideogram(karyotype = human_karyotype, overlaid = gene_density, label = Random_RNAs_500, width = 100)
+svg2jpg("chromosome.svg", jpgfile)
+```
+
+![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example8.jpg)
 
 If you want to move the Legend, then you need to modify the argument 'Lx' and 'Ly', i.e., "160" and "35".<br>
 'Lx' means the distance between upper-left point of the Legend and the leaf margin; 'Ly' means the distance between upper-left point of the Legend and the upper margin.
 
 ```
-karyotype <- karyotype[1:10,]
 ideogram(karyotype, mydata, mydata_interval, c("navy", "white", "firebrick3"), 100, 80, 25, svgfile)
 svg2pdf(svgfile, pdffile)
 ```
 
-![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example6.jpg)
-
-If you don't want to plot the label, then you just need to modify the argument 'label', i.e., "mydata_interval".
-```
-karyotype <- karyotype[1:10,]
-ideogram(karyotype, mydata, NULL, c("navy", "white", "firebrick3"), 100, 80, 25, svgfile)
-svg2pdf(svgfile, pdffile)
-```
-
-![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example7.jpg)
+![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example9.jpg)
 
 # THANKS
 Welcome to any suggestions and discussions.
