@@ -1,0 +1,5 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+Makefile
+README_files
+README.Rmd
