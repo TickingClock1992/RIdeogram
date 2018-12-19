@@ -8,8 +8,8 @@
 \alias{svg2jpg}
 \title{convertSVG}
 \usage{
-convertSVG(svg, file = "chromosome.png", device = NULL, width = 8.2677,
-  height = 11.6929, dpi = 300)
+convertSVG(svg, file = "chromosome.png", device = NULL,
+  width = 8.2677, height = 11.6929, dpi = 300)
 
 svg2pdf(svg, file, width = 8.2677, height = 11.6929, dpi = 300)
 
