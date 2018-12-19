@@ -16,11 +16,14 @@ Encoding: UTF-8
 LazyData: true
 Depends: R (>= 3.4.0)
 Imports:
+  ggimage,
   ggplot2,
+  ggplotify,
   grDevices,
   grImport2,
   rsvg,
-  scales
+  scales,
+  tools
 RoxygenNote: 6.1.1
 Suggests: 
     knitr,
