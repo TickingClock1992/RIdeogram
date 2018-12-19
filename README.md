@@ -68,7 +68,7 @@ Now, let's begin.<br>
 First, we draw a idiogram with no mapping data.
 ```
 ideogram(karyotype = human_karyotype)
-convertSVG("chromosome.svg")
+convertSVG("chromosome.svg", device = "png")
 ```
 Then, you will find a SVG file and a PNG file in your Working Directory.
 
@@ -77,7 +77,7 @@ Then, you will find a SVG file and a PNG file in your Working Directory.
 Next, we can map genome-wide data on the chromosome idiogram. In this case, we visulize the gene density across the human genome.
 ```
 ideogram(karyotype = human_karyotype, overlaid = gene_density)
-convertSVG("chromosome.svg")
+convertSVG("chromosome.svg", device = "png")
 ```
 
 ![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example2.jpg)
@@ -85,7 +85,7 @@ convertSVG("chromosome.svg")
 Alternatively, we can map some genome-wide data with track labels next to the chromosome idiograms.
 ```
 ideogram(karyotype = human_karyotype, label = Random_RNAs_500)
-convertSVG("chromosome.svg")
+convertSVG("chromosome.svg", device = "png")
 ```
 
 ![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example3.jpg)
@@ -93,7 +93,7 @@ convertSVG("chromosome.svg")
 We can also map the overlaid heatmap and track labels on the chromosome idiograms at the same time.
 ```
 ideogram(karyotype = human_karyotype, overlaid = gene_density, label = Random_RNAs_500)
-convertSVG("chromosome.svg")
+convertSVG("chromosome.svg", device = "png")
 ```
 
 ![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example4.jpg)
@@ -101,7 +101,7 @@ convertSVG("chromosome.svg")
 If you want to change the color of heatmap, you can modify the argument 'colorset' (default set is colorset = c("#4575b4", "#ffffbf", "#d73027")). You can use either color names as listed by `colors()` or hexadecimal strings of the form "#rrggbb" or "#rrggbbaa".<br>
 ```
 ideogram(karyotype = human_karyotype, overlaid = gene_density, label = Random_RNAs_500, colorset = c("#fc8d59", "#ffffbf", "#91bfdb"))
-convertSVG("chromosome.svg")
+convertSVG("chromosome.svg", device = "png")
 ```
 
 ![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example5.jpg)
@@ -111,7 +111,7 @@ To simulate this case, we deleted the last two columns of the 'human_karyotype' 
 ```
 human_karyotype <- human_karyotype[,1:3]
 ideogram(karyotype = human_karyotype, overlaid = gene_density, label = Random_RNAs_500)
-convertSVG("chromosome.svg")
+convertSVG("chromosome.svg", device = "png")
 ```
 ![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example6.jpg)
 
@@ -122,7 +122,7 @@ Before
 ```
 human_karyotype <- human_karyotype[1:10,]
 ideogram(karyotype = human_karyotype, overlaid = gene_density, label = Random_RNAs_500)
-convertSVG("chromosome.svg")
+convertSVG("chromosome.svg", device = "png")
 ```
 
 ![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example7.jpg)
@@ -131,7 +131,7 @@ After
 ```
 human_karyotype <- human_karyotype[1:10,]
 ideogram(karyotype = human_karyotype, overlaid = gene_density, label = Random_RNAs_500, width = 100)
-convertSVG("chromosome.svg")
+convertSVG("chromosome.svg", device = "png")
 ```
 
 ![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example8.jpg)
@@ -141,7 +141,7 @@ If you want to move the Legend, then you need to modify the arguments 'Lx' and '
 
 ```
 ideogram(karyotype = human_karyotype, overlaid = gene_density, label = Random_RNAs_500, width = 100, Lx = 80, Ly = 25)
-convertSVG("chromosome.svg")
+convertSVG("chromosome.svg", device = "png")
 ```
 
 ![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example9.jpg)
