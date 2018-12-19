@@ -61,22 +61,23 @@ These three files are all you need, now you can visualize these information usin
 Basic usage
 ```
 ideogram(karyotype, overlaid = NULL, label = NULL, colorset, width, Lx, Ly, output = "chromosome.svg")
+convertSVG(svg, device, width, height, dpi)
 ```
 
 Now, let's begin.<br>
 First, we draw a idiogram with no mapping data.
 ```
 ideogram(karyotype = human_karyotype)
-svg2jpg("chromosome.svg", jpgfile)
+convertSVG("chromosome.svg")
 ```
-Then, you will find a SVG file and a JPEG file in your Working Directory.
+Then, you will find a SVG file and a PNG file in your Working Directory.
 
 ![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example1.jpg)
 
 Then, we can map genome-wide data in chromosomes. In this case, we visulize the gene density across the human genome.
 ```
 ideogram(karyotype = human_karyotype, overlaid = gene_density)
-svg2jpg("chromosome.svg", jpgfile)
+convertSVG("chromosome.svg")
 ```
 
 ![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example2.jpg)
@@ -84,7 +85,7 @@ svg2jpg("chromosome.svg", jpgfile)
 We can also map some genome-wide data with track labels next to the chromosomes.
 ```
 ideogram(karyotype = human_karyotype, label = Random_RNAs_500)
-svg2jpg("chromosome.svg", jpgfile)
+convertSVG("chromosome.svg")
 ```
 
 ![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example3.jpg)
@@ -92,7 +93,7 @@ svg2jpg("chromosome.svg", jpgfile)
 We can also map the overlaid heatmap and track labels in chromosomes at the same time.
 ```
 ideogram(karyotype = human_karyotype, overlaid = gene_density, label = Random_RNAs_500)
-svg2jpg("chromosome.svg", jpgfile)
+convertSVG("chromosome.svg")
 ```
 
 ![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example4.jpg)
@@ -100,7 +101,7 @@ svg2jpg("chromosome.svg", jpgfile)
 If you want to change the color of heatmap, you can modify the argument 'colorset' (default set is colorset = c("#4575b4", "#ffffbf", "#d73027")). You can use either color names as listed by `colors()` or hexadecimal strings of the form "#rrggbb" or "#rrggbbaa".<br>
 ```
 ideogram(karyotype = human_karyotype, overlaid = gene_density, label = Random_RNAs_500, colorset = c("#fc8d59", "#ffffbf", "#91bfdb"))
-svg2jpg("chromosome.svg", jpgfile)
+convertSVG("chromosome.svg")
 ```
 
 ![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example5.jpg)
@@ -110,7 +111,7 @@ To simulate this case, we deleted the last two columns of the 'human_karyotype' 
 ```
 human_karyotype <- human_karyotype[,1:3]
 ideogram(karyotype = human_karyotype, overlaid = gene_density, label = Random_RNAs_500)
-svg2jpg("chromosome.svg", jpgfile)
+convertSVG("chromosome.svg")
 ```
 ![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example6.jpg)
 
@@ -121,7 +122,7 @@ Before
 ```
 human_karyotype <- human_karyotype[1:10,]
 ideogram(karyotype = human_karyotype, overlaid = gene_density, label = Random_RNAs_500)
-svg2jpg("chromosome.svg", jpgfile)
+convertSVG("chromosome.svg")
 ```
 
 ![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example7.jpg)
@@ -130,7 +131,7 @@ After
 ```
 human_karyotype <- human_karyotype[1:10,]
 ideogram(karyotype = human_karyotype, overlaid = gene_density, label = Random_RNAs_500, width = 100)
-svg2jpg("chromosome.svg", jpgfile)
+convertSVG("chromosome.svg")
 ```
 
 ![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example8.jpg)
@@ -140,14 +141,14 @@ If you want to move the Legend, then you need to modify the arguments 'Lx' and '
 
 ```
 ideogram(karyotype = human_karyotype, overlaid = gene_density, label = Random_RNAs_500, width = 100, Lx = 80, Ly = 25)
-svg2jpg("chromosome.svg", jpgfile)
+convertSVG("chromosome.svg")
 ```
 
 ![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example9.jpg)
 
-In addition, you can use the argument "dpi" (default value is "300") to set the resolution of the JPEG file.
+In addition, you can use the argument "device" (default value is "png")to set the format of output file, such as, "tiff", "pdf", "jpeg", etc. And, you can use the argument "dpi" (default value is "300") to set the resolution of the output image file.
 ```
-svg2jpg("chromosome.svg", jpgfile, dpi = 600)
+convertSVG("chromosome.svg", device = "tiff", dpi = 600)
 ```
 # THANKS
 Welcome to any suggestions and discussions.
