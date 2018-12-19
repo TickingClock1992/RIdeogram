@@ -20,7 +20,7 @@ None, for now.
 
 # Usage and Examples
 
-This is a simple package wiht only one two functions 'ideogram' and 'convertSVG'.<br>
+This is a simple package wiht only two functions 'ideogram' and 'convertSVG'.<br>
 
 First, you need to load the package after you installed it.
 ```
