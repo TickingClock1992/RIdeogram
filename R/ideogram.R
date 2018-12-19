@@ -30,7 +30,7 @@
 ##'
 ##' # Running the function
 ##' ideogram(karyotype = human_karyotype, overlaid = gene_density, label = Random_RNAs_500)
-##' svg2jpg("chromosome.svg", jpgfile)
+##' svg2jpg("chromosome.svg", "chromosome.jpg")
 ##'
 ##' # Then, you will find a SVG file and a JPEG file in your Working Directory.
 ##'

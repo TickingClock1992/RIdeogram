@@ -2,13 +2,27 @@
 % Please edit documentation in R/convertSVG.R
 \name{convertSVG}
 \alias{convertSVG}
+\alias{svg2pdf}
+\alias{svg2png}
+\alias{svg2tiff}
+\alias{svg2jpg}
 \title{convertSVG}
 \usage{
-convertSVG(svg, device = "png", width = 8.2677, height = 11.6929,
-  dpi = 300)
+convertSVG(svg, file = "chromosome", device = NULL, width = 8.2677,
+  height = 11.6929, dpi = 300)
+
+svg2pdf(svg, file, width = 8.2677, height = 11.6929, dpi = 300)
+
+svg2png(svg, file, width = 8.2677, height = 11.6929, dpi = 300)
+
+svg2tiff(svg, file, width = 8.2677, height = 11.6929, dpi = 300)
+
+svg2jpg(svg, file, width = 8.2677, height = 11.6929, dpi = 300)
 }
 \arguments{
 \item{svg}{svg file}
+
+\item{file}{output file name}
 
 \item{device}{target format}
 
