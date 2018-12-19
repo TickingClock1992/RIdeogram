@@ -47,7 +47,7 @@ head(Random_RNAs_500)
 
 # Running the function
 ideogram(karyotype = human_karyotype, overlaid = gene_density, label = Random_RNAs_500)
-convertSVG("chromosome.svg")
+convertSVG("chromosome.svg", device = "png")
 
 # Then, you will find a SVG file and a PNG file in your Working Directory.
 
