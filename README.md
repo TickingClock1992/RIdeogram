@@ -140,14 +140,14 @@ If you want to move the Legend, then you need to modify the arguments 'Lx' and '
 
 ```
 ideogram(karyotype, mydata, mydata_interval, c("navy", "white", "firebrick3"), width = 100, Lx = 80, Ly = 25)
-svg2pdf("chromosome.svg", jpgfile)
+svg2jpg("chromosome.svg", jpgfile)
 ```
 
 ![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example9.jpg)
 
 In addition, you can use the argument "dpi" (default value is "300") to set the resolution of the JPEG file.
 ```
-svg2pdf("chromosome.svg", jpgfile, dpi = 600)
+svg2jpg("chromosome.svg", jpgfile, dpi = 600)
 ```
 # THANKS
 Welcome to any suggestions and discussions.
