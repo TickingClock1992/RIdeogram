@@ -139,7 +139,7 @@ If you want to move the Legend, then you need to modify the arguments 'Lx' and '
 'Lx' means the distance between upper-left point of the Legend and the leaf margin; 'Ly' means the distance between upper-left point of the Legend and the upper margin.
 
 ```
-ideogram(karyotype, mydata, mydata_interval, c("navy", "white", "firebrick3"), width = 100, Lx = 80, Ly = 25)
+ideogram(karyotype = human_karyotype, overlaid = gene_density, label = Random_RNAs_500, width = 100, Lx = 80, Ly = 25)
 svg2jpg("chromosome.svg", jpgfile)
 ```
 
