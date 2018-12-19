@@ -17,7 +17,7 @@
 ##' @export
 ##' @rdname convertSVG
 ##' @author Zhaodong Hao, Dekang Lv, Guangchuang Yu, Ying Ge, Jisen Shi, Jinhui Chen
-convertSVG <- function(svg, file = "chromosome", device = NULL, width = 8.2677, height = 11.6929, dpi = 300) {
+convertSVG <- function(svg, file = "chromosome.png", device = NULL, width = 8.2677, height = 11.6929, dpi = 300) {
   f <- tempfile(fileext = ".svg")
   rsvg::rsvg_svg(svg, f)
   x <- grImport2::readPicture(f)
