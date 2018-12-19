@@ -20,7 +20,7 @@ None, for now.
 
 # Usage and Examples
 
-This is a simple package wiht only one function 'ideogram'.<br>
+This is a simple package wiht only one two functions 'ideogram' and 'convertSVG'.<br>
 
 First, you need to load the package after you installed it.
 ```
@@ -74,7 +74,7 @@ Then, you will find a SVG file and a PNG file in your Working Directory.
 
 ![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example1.jpg)
 
-Then, we can map genome-wide data in chromosomes. In this case, we visulize the gene density across the human genome.
+Next, we can map genome-wide data on the chromosome idiogram. In this case, we visulize the gene density across the human genome.
 ```
 ideogram(karyotype = human_karyotype, overlaid = gene_density)
 convertSVG("chromosome.svg")
@@ -82,7 +82,7 @@ convertSVG("chromosome.svg")
 
 ![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example2.jpg)
 
-We can also map some genome-wide data with track labels next to the chromosomes.
+Alternatively, we can map some genome-wide data with track labels next to the chromosome idiograms.
 ```
 ideogram(karyotype = human_karyotype, label = Random_RNAs_500)
 convertSVG("chromosome.svg")
@@ -90,7 +90,7 @@ convertSVG("chromosome.svg")
 
 ![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example3.jpg)
 
-We can also map the overlaid heatmap and track labels in chromosomes at the same time.
+We can also map the overlaid heatmap and track labels on the chromosome idiograms at the same time.
 ```
 ideogram(karyotype = human_karyotype, overlaid = gene_density, label = Random_RNAs_500)
 convertSVG("chromosome.svg")
