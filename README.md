@@ -16,17 +16,21 @@ devtools::install_github('TickingClock1992/RIdeogram')
 
 # Citation
 
-None, for now.
+
+Zhaodong Hao, Dekang Lv, Guangchuang Yu, Ying Ge, Jisen Shi and Jinhui
+Chen (2018). RIdeogram: Drawing SVG graphics to visualize and map
+genome-wide data in idiograms. R package version 0.1.0.
 
 # Usage and Examples
 
-This is a simple package wiht only two functions 'ideogram' and 'convertSVG'.<br>
+This is a simple package wiht only two functions `ideogram` and `convertSVG`.
 
 First, you need to load the package after you installed it.
+
 ```
 require(RIdeogram)
 ```
-Then, you need to load the data from the RIdeogram package. 
+Then, you need to load the data from the RIdeogram package.
 ```
 data(human_karyotype, package="RIdeogram")
 data(gene_density, package="RIdeogram")
@@ -36,17 +40,19 @@ You can use the function "head()" to see the data format.
 ```
 head(human_karyotype)
 ```
-Specifically, the 'karyotype' file contains the karyotype information and has five columns (or three, see below). The first column is Chromosome ID, the second and thrid columns are start and end positions of corresponding chromosomes and the fourth and fifth columns are start and end positions of corresponding centromeres.<br>
+Specifically, the 'karyotype' file contains the karyotype information and has five columns (or three, see below). The first column is Chromosome ID, the second and thrid columns are start and end positions of corresponding chromosomes and the fourth and fifth columns are start and end positions of corresponding centromeres.
+
 
 ```
 head(gene_density)
 ```
-The 'mydata' file contains the heatmap information and has four columns. The first column is Chromosome ID, the second and thrid columns are start and end positions of windows in corresponding chromosomes and the fourth column is a characteristic value in corresponding windows, such as gene number.<br>
+The 'mydata' file contains the heatmap information and has four columns. The first column is Chromosome ID, the second and thrid columns are start and end positions of windows in corresponding chromosomes and the fourth column is a characteristic value in corresponding windows, such as gene number.
+
 
 ```
 head(Random_RNAs_500)
 ```
-The 'mydata_interval' file contains the label information and has six columns. The first column is the label type, the second column is the shape of label with three available options of box, triangle and circle, the third column is Chromosome ID, the fourth and fifth columns are the start and end positions of corresponding labels in the chromosomes and the sixth column is the color of the label.<br>
+The 'mydata_interval' file contains the label information and has six columns. The first column is the label type, the second column is the shape of label with three available options of box, triangle and circle, the third column is Chromosome ID, the fourth and fifth columns are the start and end positions of corresponding labels in the chromosomes and the sixth column is the color of the label.
 
 Or, you can also load your own data by using the function "read.table", such as
 ```
@@ -54,9 +60,9 @@ human_karyotype <- read.table("karyotype.txt", sep = "\t", header = T, stringsAs
 gene_density <- read.table("data_1.txt", sep = "\t", header = T, stringsAsFactors = F)
 Random_RNAs_500 <- read.table("data_2.txt", sep = "\t", header = T, stringsAsFactors = F)
 ```
-The "karyotype.txt" file contains karyotype information; the "data_1.txt" file contains heatmap data; the "data_2.txt" contains track label data.<br>
+The "karyotype.txt" file contains karyotype information; the "data_1.txt" file contains heatmap data; the "data_2.txt" contains track label data.
 
-These three files are all you need, now you can visualize these information using the 'ideogram' function.<br>
+These three files are all you need, now you can visualize these information using the 'ideogram' function.
 
 Basic usage
 ```
@@ -64,7 +70,8 @@ ideogram(karyotype, overlaid = NULL, label = NULL, colorset, width, Lx, Ly, outp
 convertSVG(svg, device, width, height, dpi)
 ```
 
-Now, let's begin.<br>
+Now, let's begin.
+
 First, we draw a idiogram with no mapping data.
 ```
 ideogram(karyotype = human_karyotype)
@@ -98,7 +105,8 @@ convertSVG("chromosome.svg", device = "png")
 
 ![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example4.jpg)
 
-If you want to change the color of heatmap, you can modify the argument 'colorset' (default set is colorset = c("#4575b4", "#ffffbf", "#d73027")). You can use either color names as listed by `colors()` or hexadecimal strings of the form "#rrggbb" or "#rrggbbaa".<br>
+If you want to change the color of heatmap, you can modify the argument 'colorset' (default set is colorset = c("#4575b4", "#ffffbf", "#d73027")). You can use either color names as listed by `colors()` or hexadecimal strings of the form "#rrggbb" or "#rrggbbaa".
+
 ```
 ideogram(karyotype = human_karyotype, overlaid = gene_density, label = Random_RNAs_500, colorset = c("#fc8d59", "#ffffbf", "#91bfdb"))
 convertSVG("chromosome.svg", device = "png")
@@ -115,8 +123,9 @@ convertSVG("chromosome.svg", device = "png")
 ```
 ![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example6.jpg)
 
-If there are only ten chromosomes in your sepcies, maybe you need to motify the argument 'width' (default value is "170").<br>
-To simulate this case, we only keep the first ten columns of the 'human_karyotype' file.<br>
+If there are only ten chromosomes in your species, maybe you need to motify the argument 'width' (default value is "170").
+
+To simulate this case, we only keep the first ten columns of the 'human_karyotype' file.
 
 Before
 ```
