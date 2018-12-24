@@ -4,7 +4,7 @@ Title: Drawing SVG graphics to visualize and map genome-wide data in idiograms
 Version: 0.1.0
 Authors@R: c(person("Zhaodong", "Hao", email = "haozd1992@163.com", role = c("aut", "cre")),
 	     person("Dekang", "Lv", email = "dekanglv@126.com", role = "aut"),
-	     person("Guangchuang", "Yu", email = "guangchuangyu@gmail.com", role = "aut"),
+	     person("Guangchuang", "Yu", email = "guangchuangyu@gmail.com", role = c("aut", "cre")),
 	     person("Ying", "Ge", email = "geying.tju@gmail.com", role = "aut"),
 	     person("Jisen", "Shi", email = "Jshi@njfu.edu.cn", role = "aut"),
 	     person("Jinhui", "Chen", email = "chenjh@njfu.edu.cn", role = "aut"))
