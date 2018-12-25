@@ -123,7 +123,7 @@ ideogram <- function(karyotype, overlaid = NULL, label = NULL, colorset1 = c("#4
 
     cnum<-10000 #颜色板色彩的数量设置
 
-    mydata$color <- colorRampPalette(colorset)(cnum)[round(rescale(mydata$Value,to=c(1,cnum)))] #根据value配置颜色，使用白色则要求mydata中基因组均有value
+    mydata$color <- colorRampPalette(colorset1)(cnum)[round(rescale(mydata$Value,to=c(1,cnum)))] #根据value配置颜色，使用白色则要求mydata中基因组均有value
 
     mydata<-merge(mydata,data.frame(Chr=karyotype$Chr,ChrEnd=karyotype$End,x1=karyotype$x1,x2=karyotype$x2),by="Chr")
 
