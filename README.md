@@ -87,7 +87,7 @@ ideogram(karyotype = human_karyotype, overlaid = gene_density)
 convertSVG("chromosome.svg", device = "png")
 ```
 
-![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example2.png)
+![image](https://github.com/TickingClock1992/RIdeogram/blob/master/image/example2.png)
 
 Alternatively, we can map some genome-wide data with track labels next to the chromosome idiograms.
 ```
@@ -95,7 +95,7 @@ ideogram(karyotype = human_karyotype, label = Random_RNAs_500)
 convertSVG("chromosome.svg", device = "png")
 ```
 
-![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example3.png)
+![image](https://github.com/TickingClock1992/RIdeogram/blob/master/image/example3.png)
 
 We can also map the overlaid heatmap and track labels on the chromosome idiograms at the same time.
 ```
@@ -103,7 +103,7 @@ ideogram(karyotype = human_karyotype, overlaid = gene_density, label = Random_RN
 convertSVG("chromosome.svg", device = "png")
 ```
 
-![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example4.png)
+![image](https://github.com/TickingClock1992/RIdeogram/blob/master/image/example4.png)
 
 If you want to change the color of heatmap, you can modify the argument 'colorset' (default set is colorset = c("#4575b4", "#ffffbf", "#d73027")). You can use either color names as listed by `colors()` or hexadecimal strings of the form "#rrggbb" or "#rrggbbaa".
 
@@ -112,7 +112,7 @@ ideogram(karyotype = human_karyotype, overlaid = gene_density, label = Random_RN
 convertSVG("chromosome.svg", device = "png")
 ```
 
-![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example5.png)
+![image](https://github.com/TickingClock1992/RIdeogram/blob/master/image/example5.png)
 
 If you don not know the centromere information in your species, you don not need to modify the script. In this case, the 'karyotype' file has only three columns.<br>
 To simulate this case, we deleted the last two columns of the 'human_karyotype' file.
@@ -121,7 +121,7 @@ human_karyotype <- human_karyotype[,1:3]
 ideogram(karyotype = human_karyotype, overlaid = gene_density, label = Random_RNAs_500)
 convertSVG("chromosome.svg", device = "png")
 ```
-![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example6.png)
+![image](https://github.com/TickingClock1992/RIdeogram/blob/master/image/example6.png)
 
 If there are only ten chromosomes in your species, maybe you need to motify the argument 'width' (default value is "170").
 
@@ -134,7 +134,7 @@ ideogram(karyotype = human_karyotype, overlaid = gene_density, label = Random_RN
 convertSVG("chromosome.svg", device = "png")
 ```
 
-![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example7.png)
+![image](https://github.com/TickingClock1992/RIdeogram/blob/master/image/example7.png)
 
 After
 ```
@@ -143,7 +143,7 @@ ideogram(karyotype = human_karyotype, overlaid = gene_density, label = Random_RN
 convertSVG("chromosome.svg", device = "png")
 ```
 
-![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example8.png)
+![image](https://github.com/TickingClock1992/RIdeogram/blob/master/image/example8.png)
 
 If you want to move the Legend, then you need to modify the arguments 'Lx' and 'Ly'(default values are "160" and "35", separately).<br>
 'Lx' means the distance between upper-left point of the Legend and the leaf margin; 'Ly' means the distance between upper-left point of the Legend and the upper margin.
@@ -153,7 +153,7 @@ ideogram(karyotype = human_karyotype, overlaid = gene_density, label = Random_RN
 convertSVG("chromosome.svg", device = "png")
 ```
 
-![image](https://github.com/TickingClock1992/RIdeogram/blob/master/images/example9.png)
+![image](https://github.com/TickingClock1992/RIdeogram/blob/master/image/example9.png)
 
 In addition, you can use the argument "device" (default value is "png")to set the format of output file, such as, "tiff", "pdf", "jpeg", etc. And, you can use the argument "dpi" (default value is "300") to set the resolution of the output image file.
 ```
