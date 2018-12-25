@@ -155,6 +155,15 @@ convertSVG("chromosome.svg", device = "png")
 
 ![image](https://github.com/TickingClock1992/RIdeogram/blob/master/image/example9.png)
 
+If you have two sets of heatmap data, such as gene density and LTR density, you can use the following scripts to map and visualize these data in idiograms.
+```
+data(human_karyotype, package="RIdeogram") #reload the karyotype data
+ideogram(karyotype = human_karyotype, overlaid = gene_density, label = LTR_density, colorset1 = c("#f7f7f7", "#e34a33"), colorset2 = c("#f7f7f7", "#2c7fb8")) #use the arguments 'colorset1' and 'colorset2' to set the colors for gene and LTR heatmaps, separately.
+convertSVG("chromosome.svg", device = "png")
+```
+
+![image](https://github.com/TickingClock1992/RIdeogram/blob/master/image/example10.png)
+
 In addition, you can use the argument "device" (default value is "png")to set the format of output file, such as, "tiff", "pdf", "jpeg", etc. And, you can use the argument "dpi" (default value is "300") to set the resolution of the output image file.
 ```
 convertSVG("chromosome.svg", device = "tiff", dpi = 600)
