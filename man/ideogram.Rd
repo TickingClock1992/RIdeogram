@@ -5,7 +5,8 @@
 \title{ideogram}
 \usage{
 ideogram(karyotype, overlaid = NULL, label = NULL,
-  colorset = c("#4575b4", "#ffffbf", "#d73027"), width = 170,
+  colorset1 = c("#4575b4", "#ffffbf", "#d73027"),
+  colorset2 = c("#1b7837", "#f7f7f7", "#762a83"), width = 170,
   Lx = 160, Ly = 35, output = "chromosome.svg")
 }
 \arguments{
@@ -15,7 +16,9 @@ ideogram(karyotype, overlaid = NULL, label = NULL,
 
 \item{label}{track label data}
 
-\item{colorset}{overlaid heatmap color}
+\item{colorset1}{overlaid heatmap 1 color}
+
+\item{colorset2}{overlaid heatmap 2 color}
 
 \item{width}{width of plot region}
 
