@@ -23,7 +23,7 @@ genome-wide data in idiograms. R package version 0.1.0.
 
 # Usage and Examples
 
-This is a simple package wiht only two functions `ideogram` and `convertSVG`.
+This is a simple package with only two functions `ideogram` and `convertSVG`.
 
 First, you need to load the package after you installed it.
 
