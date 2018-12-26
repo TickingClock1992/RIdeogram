@@ -66,7 +66,7 @@ These three files are all you need, now you can visualize these information usin
 
 Basic usage
 ```
-ideogram(karyotype, overlaid = NULL, label = NULL, colorset, width, Lx, Ly, output = "chromosome.svg")
+ideogram(karyotype, overlaid = NULL, label = NULL, colorset1, colorset2, width, Lx, Ly, output = "chromosome.svg")
 convertSVG(svg, device, width, height, dpi)
 ```
 
