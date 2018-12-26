@@ -1,6 +1,6 @@
 Package: RIdeogram
 Type: Package
-Title: Drawing SVG Graphics to Visualize and Map Genome-wide Data in Idiograms
+Title: Drawing SVG Graphics to Visualize and Map Genome-Wide Data in Idiograms
 Version: 0.1.0
 Authors@R: c(person("Zhaodong", "Hao", email = "haozd1992@163.com", role = c("aut", "cre")),
 	     person("Dekang", "Lv", email = "dekanglv@126.com", role = "aut"),
