@@ -164,7 +164,7 @@ convertSVG("chromosome.svg", device = "png")
 
 ![image](https://github.com/TickingClock1992/RIdeogram/blob/master/image/example10.png)
 
-In addition, you can use the argument "device" (default value is "png")to set the format of output file, such as, "tiff", "pdf", "jpeg", etc. And, you can use the argument "dpi" (default value is "300") to set the resolution of the output image file.
+In addition, you can use the argument "device" (default value is "png")to set the format of output file, such as, "tiff", "pdf", "jpg", etc. And, you can use the argument "dpi" (default value is "300") to set the resolution of the output image file.
 ```
 convertSVG("chromosome.svg", device = "tiff", dpi = 600)
 ```
