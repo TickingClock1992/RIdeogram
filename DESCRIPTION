@@ -1,6 +1,6 @@
 Package: RIdeogram
 Type: Package
-Title: Drawing SVG graphics to visualize and map genome-wide data in idiograms
+Title: Drawing SVG Graphics to Visualize and Map Genome-wide Data in Idiograms
 Version: 0.1.0
 Authors@R: c(person("Zhaodong", "Hao", email = "haozd1992@163.com", role = c("aut", "cre")),
 	     person("Dekang", "Lv", email = "dekanglv@126.com", role = "aut"),
@@ -9,7 +9,7 @@ Authors@R: c(person("Zhaodong", "Hao", email = "haozd1992@163.com", role = c("au
 	     person("Jisen", "Shi", email = "Jshi@njfu.edu.cn", role = "aut"),
 	     person("Jinhui", "Chen", email = "chenjh@njfu.edu.cn", role = "aut"))
 Maintainer: Zhaodong Hao <haozd1992@163.com>
-Description: This package was developed to visualize and map whole-genome data in chromosomes with no restriction of species.
+Description: For whole-genome analysis, idiograms are virtually the most intuitive and effective way to map and visualize the genome-wide information. RIdeogram was developed to visualize and map whole-genome data in idiograms with no restriction of species.
 License: Artistic-2.0
 Encoding: UTF-8
 LazyData: true
