@@ -94,7 +94,7 @@ convertSVG("chromosome.svg", device = "png")
 
 Then, you will find a SVG file and a PNG file in your Working Directory.
 
-< img src="figures/example1.png" width="100%" />
+<img src="figures/example1.png" width="100%" />
 
 Next, we can map genome-wide data on the chromosome idiogram. In this case, we visulize the gene density across the human genome.
 
@@ -103,7 +103,7 @@ ideogram(karyotype = human_karyotype, overlaid = gene_density)
 convertSVG("chromosome.svg", device = "png")
 ```
 
-< img src="figures/example2.png" width="100%" />
+<img src="figures/example2.png" width="100%" />
 
 Alternatively, we can map some genome-wide data with track labels next to the chromosome idiograms.
 
@@ -112,7 +112,7 @@ ideogram(karyotype = human_karyotype, label = Random_RNAs_500)
 convertSVG("chromosome.svg", device = "png")
 ```
 
-< img src="figures/example3.png" width="100%" />
+<img src="figures/example3.png" width="100%" />
 
 We can also map the overlaid heatmap and track labels on the chromosome idiograms at the same time.
 
@@ -121,7 +121,7 @@ ideogram(karyotype = human_karyotype, overlaid = gene_density, label = Random_RN
 convertSVG("chromosome.svg", device = "png")
 ```
 
-< img src="figures/example4.png" width="100%" />
+<img src="figures/example4.png" width="100%" />
 
 If you want to change the color of heatmap, you can modify the argument 'colorset' (default set is colorset = c("#4575b4", "#ffffbf", "#d73027")). You can use either color names as listed by `colors()` or hexadecimal strings of the form "#rrggbb" or "#rrggbbaa".
 
@@ -130,7 +130,7 @@ ideogram(karyotype = human_karyotype, overlaid = gene_density, label = Random_RN
 convertSVG("chromosome.svg", device = "png")
 ```
 
-< img src="figures/example5.png" width="100%" />
+<img src="figures/example5.png" width="100%" />
 
 If you don not know the centromere information in your species, you don not need to modify the script. In this case, the 'karyotype' file has only three columns.
 
@@ -142,7 +142,7 @@ ideogram(karyotype = human_karyotype, overlaid = gene_density, label = Random_RN
 convertSVG("chromosome.svg", device = "png")
 ```
 
-< img src="figures/example6.png" width="100%" />
+<img src="figures/example6.png" width="100%" />
 
 If there are only ten chromosomes in your species, maybe you need to motify the argument 'width' (default value is "170").
 
@@ -155,7 +155,7 @@ ideogram(karyotype = human_karyotype, overlaid = gene_density, label = Random_RN
 convertSVG("chromosome.svg", device = "png")
 ```
 
-< img src="figures/example7.png" width="100%" />
+<img src="figures/example7.png" width="100%" />
 
 After
 ```r
@@ -164,7 +164,7 @@ ideogram(karyotype = human_karyotype, overlaid = gene_density, label = Random_RN
 convertSVG("chromosome.svg", device = "png")
 ```
 
-< img src="figures/example8.png" width="100%" />
+<img src="figures/example8.png" width="100%" />
 
 If you want to move the Legend, then you need to modify the arguments 'Lx' and 'Ly'(default values are "160" and "35", separately).
 
@@ -175,7 +175,7 @@ ideogram(karyotype = human_karyotype, overlaid = gene_density, label = Random_RN
 convertSVG("chromosome.svg", device = "png")
 ```
 
-< img src="figures/example9.png" width="100%" />
+<img src="figures/example9.png" width="100%" />
 
 If you have two sets of heatmap data, such as gene density and LTR density, you can use the following scripts to map and visualize these data in idiograms.
 
@@ -185,7 +185,7 @@ ideogram(karyotype = human_karyotype, overlaid = gene_density, label = LTR_densi
 convertSVG("chromosome.svg", device = "png")
 ```
 
-< img src="figures/example10.png" width="100%" />
+<img src="figures/example10.png" width="100%" />
 
 In addition, you can use the argument "device" (default value is "png")to set the format of output file, such as, "tiff", "pdf", "jpg", etc. And, you can use the argument "dpi" (default value is "300") to set the resolution of the output image file.
 
