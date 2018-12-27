@@ -11,13 +11,13 @@
 convertSVG(svg, file = "chromosome", device = NULL,
   width = 8.2677, height = 11.6929, dpi = 300)
 
-svg2pdf(svg, file, width = 8.2677, height = 11.6929, dpi = 300)
+svg2pdf(svg, file = "chromosome", width = 8.2677, height = 11.6929, dpi = 300)
 
-svg2png(svg, file, width = 8.2677, height = 11.6929, dpi = 300)
+svg2png(svg, file = "chromosome", width = 8.2677, height = 11.6929, dpi = 300)
 
-svg2tiff(svg, file, width = 8.2677, height = 11.6929, dpi = 300)
+svg2tiff(svg, file = "chromosome", width = 8.2677, height = 11.6929, dpi = 300)
 
-svg2jpg(svg, file, width = 8.2677, height = 11.6929, dpi = 300)
+svg2jpg(svg, file = "chromosome", width = 8.2677, height = 11.6929, dpi = 300)
 }
 \arguments{
 \item{svg}{svg file}
