@@ -46,19 +46,19 @@ data(Random_RNAs_500, package="RIdeogram")
 
 You can use the function "head()" to see the data format.
 
-```r
+```{r}
 head(human_karyotype)
 ```
 
 Specifically, the 'karyotype' file contains the karyotype information and has five columns (or three, see below). The first column is Chromosome ID, the second and thrid columns are start and end positions of corresponding chromosomes and the fourth and fifth columns are start and end positions of corresponding centromeres.
 
-```r
+```{r}
 head(gene_density)
 ```
 
 The 'mydata' file contains the heatmap information and has four columns. The first column is Chromosome ID, the second and thrid columns are start and end positions of windows in corresponding chromosomes and the fourth column is a characteristic value in corresponding windows, such as gene number.
 
-```r
+```{r}
 head(Random_RNAs_500)
 ```
 
