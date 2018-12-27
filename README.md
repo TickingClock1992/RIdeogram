@@ -79,7 +79,7 @@ convertSVG("chromosome.svg", device = "png")
 ```
 Then, you will find a SVG file and a PNG file in your Working Directory.
 
-![image](https://github.com/TickingClock1992/RIdeogram/blob/master/vignettes/figures/example1.png)
+![image](https://github.com/TickingClock1992/RIdeogram/blob/master/vignettes/figures/example11.png)
 
 Next, we can map genome-wide data on the chromosome idiogram. In this case, we visulize the gene density across the human genome.
 ```
