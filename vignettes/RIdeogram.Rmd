@@ -32,13 +32,13 @@ This is a simple package with only two functions `ideogram` and `convertSVG`.
 
 First, you need to load the package after you installed it.
 
-```r
+```{r}
 require(RIdeogram)
 ```
 
 Then, you need to load the data from the RIdeogram package.
 
-```r
+```{r}
 data(human_karyotype, package="RIdeogram")
 data(gene_density, package="RIdeogram")
 data(Random_RNAs_500, package="RIdeogram")
