@@ -46,25 +46,25 @@ convertSVG <- function(svg, file = "chromosome", device = NULL, width = 8.2677, 
 
 ##' @rdname convertSVG
 ##' @export
-svg2pdf <- function(svg, file, width = 8.2677, height = 11.6929, dpi = 300) {
+svg2pdf <- function(svg, file = "chromosome", width = 8.2677, height = 11.6929, dpi = 300) {
     convertSVG(svg, file, device = 'pdf', width = width, height = height, dpi = dpi)
 }
 
 ##' @rdname convertSVG
 ##' @export
-svg2png <- function(svg, file, width = 8.2677, height = 11.6929, dpi = 300) {
+svg2png <- function(svg, file = "chromosome", width = 8.2677, height = 11.6929, dpi = 300) {
     convertSVG(svg, file, device = 'png', width = width, height = height, dpi = dpi)
 }
 
 ##' @rdname convertSVG
 ##' @export
-svg2tiff <- function(svg, file, width = 8.2677, height = 11.6929, dpi = 300) {
+svg2tiff <- function(svg, file = "chromosome", width = 8.2677, height = 11.6929, dpi = 300) {
     convertSVG(svg, file, device = 'tiff', width = width, height = height, dpi = dpi)
 }
 
 ##' @rdname convertSVG
 ##' @export
-svg2jpg <- function(svg, file, width = 8.2677, height = 11.6929, dpi = 300) {
+svg2jpg <- function(svg, file = "chromosome", width = 8.2677, height = 11.6929, dpi = 300) {
     convertSVG(svg, file, device = 'jpg', width = width, height = height, dpi = dpi)
 }
 
