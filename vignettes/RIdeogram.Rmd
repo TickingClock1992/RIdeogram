@@ -192,3 +192,11 @@ In addition, you can use the argument "device" (default value is "png")to set th
 ```r
 convertSVG("chromosome.svg", device = "tiff", dpi = 600)
 ```
+
+Also, there are four shortcuts to convert the SVG images to these optional image formats with no necessary to set the argument "device", such as
+```
+svg2tiff("chromosome.svg")
+svg2pdf("chromosome.svg")
+svg2jpg("chromosome.svg")
+svg2png("chromosome.svg")
+```
