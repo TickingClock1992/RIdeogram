@@ -35,7 +35,7 @@
 ##'
 ##' # Then, you will find a SVG file and a PNG file in your Working Directory.
 ##'
-##' @author Zhaodong Hao, Dekang Lv, Guangchuang Yu, Ying Ge, Jisen Shi, Jinhui Chen
+##' @author Zhaodong Hao, Dekang Lv, Ying Ge, Jisen Shi, Guangchuang Yu, Jinhui Chen
 ##'
 ideogram <- function(karyotype, overlaid = NULL, label = NULL, colorset1 = c("#4575b4", "#ffffbf", "#d73027"), colorset2 = c("#b35806", "#f7f7f7", "#542788"), width = 170, Lx = 160, Ly = 35, output = "chromosome.svg") {
   karyotype <- karyotype
