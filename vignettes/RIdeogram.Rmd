@@ -24,7 +24,7 @@ RIdeogram is a R package to draw SVG (Scalable Vector Graphics) graphics to visu
 
 If you use this package in a published paper, please cite this paper:
 
-Zhaodong Hao, Dekang Lv, Guangchuang Yu, Ying Ge, Jisen Shi and Jinhui Chen (2018). RIdeogram: Drawing SVG graphics to visualize and map genome-wide data in idiograms. R package version 0.1.0.
+Zhaodong Hao, Dekang Lv, Ying Ge, Jisen Shi, Guangchuang Yu, and Jinhui Chen (2018). RIdeogram: Drawing SVG graphics to visualize and map genome-wide data in idiograms. R package version 0.1.0.
 
 ## Usage and Examples
 
