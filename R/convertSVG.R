@@ -16,7 +16,7 @@
 ##' @importFrom tools file_ext
 ##' @export
 ##' @rdname convertSVG
-##' @author Zhaodong Hao, Dekang Lv, Guangchuang Yu, Ying Ge, Jisen Shi, Jinhui Chen
+##' @author Zhaodong Hao, Dekang Lv, Ying Ge, Jisen Shi, Guangchuang Yu, Jinhui Chen
 convertSVG <- function(svg, file = "chromosome", device = NULL, width = 8.2677, height = 11.6929, dpi = 300) {
   f <- tempfile(fileext = ".svg")
   rsvg::rsvg_svg(svg, f)
