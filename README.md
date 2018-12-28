@@ -17,7 +17,7 @@ devtools::install_github('TickingClock1992/RIdeogram')
 # Citation
 
 
-Zhaodong Hao, Dekang Lv, Guangchuang Yu, Ying Ge, Jisen Shi and Jinhui
+Zhaodong Hao, Dekang Lv, Ying Ge, Jisen Shi, Guangchuang Yu, and Jinhui
 Chen (2018). RIdeogram: Drawing SVG graphics to visualize and map
 genome-wide data in idiograms. R package version 0.1.0.
 
