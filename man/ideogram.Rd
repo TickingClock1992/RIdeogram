@@ -56,5 +56,5 @@ convertSVG("chromosome.svg", device = "png")
 
 }
 \author{
-Zhaodong Hao, Dekang Lv, Guangchuang Yu, Ying Ge, Jisen Shi, Jinhui Chen
+Zhaodong Hao, Dekang Lv, Ying Ge, Jisen Shi, Guangchuang Yu, Jinhui Chen
 }
