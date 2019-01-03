@@ -265,7 +265,7 @@ ideogram <- function(karyotype, overlaid = NULL, label = NULL, colorset1 = c("#4
       #draw new idiograms
       if (col_num == 5){
         karyotype$path2 = paste("<path d=\"M", karyotype$x1 + 1.2 * chr_width, ",", karyotype$y1,
-                                " A", chr_width/2, ",", chr_width/2, " 0 1,1 ", karyotype$x2 + 1.2 * chr_width, ",", karyotype$y2, #圆弧
+                                " A", chr_width/2, ",", chr_width/2, " 0 1,1 ", karyotype$x2 + 1.2 * chr_width, ",", karyotype$y2,
                                 " L", karyotype$x3 + 1.2 * chr_width, ",", karyotype$y3,
                                 " L", karyotype$x4 + 1.2 * chr_width, ",", karyotype$y4,
                                 " L", karyotype$x5 + 1.2 * chr_width, ",", karyotype$y5,
@@ -282,7 +282,7 @@ ideogram <- function(karyotype, overlaid = NULL, label = NULL, colorset1 = c("#4
       }
 
       karyotype$hat2 = paste("<path d=\"M", karyotype$x1 + 1.2 * chr_width, ",", karyotype$y1,
-                            " A", chr_width/2, ",", chr_width/2, " 0 1,1 ", karyotype$x2 + 1.2 * chr_width, ",", karyotype$y2, #圆弧
+                            " A", chr_width/2, ",", chr_width/2, " 0 1,1 ", karyotype$x2 + 1.2 * chr_width, ",", karyotype$y2,
                             " L", karyotype$x10 + 1.2 * chr_width, ",", karyotype$y10,
                             " L", karyotype$x9 + 1.2 * chr_width, ",", karyotype$y9,
                             " Z" ,"\" style=\"fill:white; stroke:white; stroke-width:0.75\"/>", sep = "")
