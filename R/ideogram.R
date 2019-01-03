@@ -44,17 +44,17 @@ ideogram <- function(karyotype, overlaid = NULL, label = NULL, colorset1 = c("#4
 
   col_num <- ncol(karyotype)
 
-  mpx<-3.543307 #换算比
-  chr_width <- width / (2.6*nrow(karyotype)) * mpx  #width(mm)可以根据染色体条数适当调整
+  mpx<-3.543307 #conversion ratio
+  chr_width <- width / (2.6*nrow(karyotype)) * mpx  #width(mm)
 
   karyotype$x9 <- karyotype$x1 <- karyotype$x8 <- karyotype$x4 <- karyotype$x5 <-
     karyotype$x12 <- apply(data.frame(1:nrow(karyotype)),1,function(x)(20*mpx+(x[1]-1)*2.6*chr_width))
 
-  maxchrlen<-150 #最长染色体长度设置为150mm
+  maxchrlen<-150 #the length of the longest chromosome was set to be 150mm
 
   karyotype$y1 <- karyotype$y2 <-
     apply(data.frame(karyotype$End),1,
-          function(x) ((25+maxchrlen*(1-x[1]/max(karyotype$End))) * mpx + chr_width/2)) #染色体顶部圆弧高度为chr_width/2
+          function(x) ((25+maxchrlen*(1-x[1]/max(karyotype$End))) * mpx + chr_width/2)) #the arc radius on each end was set to be chr_width/2
 
   karyotype$x10 <- karyotype$x2 <- karyotype$x3 <- karyotype$x7 <-
     karyotype$x6 <- karyotype$x11 <- karyotype$x1+chr_width
@@ -79,7 +79,7 @@ ideogram <- function(karyotype, overlaid = NULL, label = NULL, colorset1 = c("#4
 
   if (col_num == 5){
     karyotype$path = paste("<path d=\"M", karyotype$x1, ",", karyotype$y1,
-                           " A", chr_width/2, ",", chr_width/2, " 0 1,1 ", karyotype$x2, ",", karyotype$y2, #圆弧
+                           " A", chr_width/2, ",", chr_width/2, " 0 1,1 ", karyotype$x2, ",", karyotype$y2,
                            " L", karyotype$x3, ",", karyotype$y3,
                            " L", karyotype$x4, ",", karyotype$y4,
                            " L", karyotype$x5, ",", karyotype$y5,
@@ -96,7 +96,7 @@ ideogram <- function(karyotype, overlaid = NULL, label = NULL, colorset1 = c("#4
     }
 
   karyotype$hat = paste("<path d=\"M", karyotype$x1, ",", karyotype$y1,
-                        " A", chr_width/2, ",", chr_width/2, " 0 1,1 ", karyotype$x2, ",", karyotype$y2, #圆弧
+                        " A", chr_width/2, ",", chr_width/2, " 0 1,1 ", karyotype$x2, ",", karyotype$y2,
                         " L", karyotype$x10, ",", karyotype$y10,
                         " L", karyotype$x9, ",", karyotype$y9,
                         " Z" ,"\" style=\"fill:white; stroke:white; stroke-width:0.75\"/>", sep = "")
@@ -121,9 +121,9 @@ ideogram <- function(karyotype, overlaid = NULL, label = NULL, colorset1 = c("#4
 
   if (!is.null(mydata)) {
 
-    cnum<-10000 #颜色板色彩的数量设置
+    cnum<-10000
 
-    mydata$color <- colorRampPalette(colorset1)(cnum)[round(rescale(mydata$Value,to=c(1,cnum)))] #根据value配置颜色，使用白色则要求mydata中基因组均有value
+    mydata$color <- colorRampPalette(colorset1)(cnum)[round(rescale(mydata$Value,to=c(1,cnum)))]
 
     mydata<-merge(mydata,data.frame(Chr=karyotype$Chr,ChrEnd=karyotype$End,x1=karyotype$x1,x2=karyotype$x2),by="Chr")
 
@@ -137,7 +137,7 @@ ideogram <- function(karyotype, overlaid = NULL, label = NULL, colorset1 = c("#4
                         " Z" ,"\" style=\"fill:", mydata$color, "; stroke:", mydata$color, "; stroke-width:0.25\"/>", sep = "")
 
     # legend for mydata
-    mydata_legend <- data.frame(color=colorRampPalette(colorset1)(cnum)) #颜色与上面data1的设置保持一致
+    mydata_legend <- data.frame(color=colorRampPalette(colorset1)(cnum))
     mydata_legend$x1<-apply(data.frame(1:cnum),1,function(x)(Lx * mpx + (x[1] - 1) * ((20 * mpx) / cnum)))
     mydata_legend$y1<-Ly * mpx
     mydata_legend$legend<-paste("<rect x=\"", mydata_legend$x1, "\" y=\"", mydata_legend$y1,
@@ -163,7 +163,7 @@ ideogram <- function(karyotype, overlaid = NULL, label = NULL, colorset1 = c("#4
       mydata_interval$y0 <- apply(data.frame(mydata_interval$ChrEnd,mydata_interval$Start,mydata_interval$End),1,function(x)((25+maxchrlen*(1-(x[1]-(x[2]+x[3])/2)/max(karyotype$End))) * mpx))
       mydata_interval<-mydata_interval[order(mydata_interval$Chr,mydata_interval$y0),]
 
-      #repel函数，用于移动染色体旁边的标记，避免太多时互相重叠
+      #repel
       repel<- function(mydata,myforce,tag){
         #print(tag)
         #myordata<-sort(mydata)
@@ -256,13 +256,13 @@ ideogram <- function(karyotype, overlaid = NULL, label = NULL, colorset1 = c("#4
       }
       names(mydata2_legend)[12] <- "name"
     } else if (ncol(mydata_interval) == 4) {
-      #调整染色体文字位置
+      #the positions of chromosome names
       karyotype$text = paste("<text x=\"", (2 * karyotype$x1 + 2.6 * chr_width)/2 - 4 * nchar(karyotype$Chr), "\" y=\"",
                              (150 + 25) * mpx + 15,
                              "\" font-size=\"9\" font-family=\"Arial\" fill=\"black\" >",
                              karyotype$Chr, "</text>", sep = "")
 
-      #画新的idiograms
+      #draw new idiograms
       if (col_num == 5){
         karyotype$path2 = paste("<path d=\"M", karyotype$x1 + 1.2 * chr_width, ",", karyotype$y1,
                                 " A", chr_width/2, ",", chr_width/2, " 0 1,1 ", karyotype$x2 + 1.2 * chr_width, ",", karyotype$y2, #圆弧
@@ -300,9 +300,9 @@ ideogram <- function(karyotype, overlaid = NULL, label = NULL, colorset1 = c("#4
                             " Z" ,"\" style=\"fill:white; stroke:white; stroke-width:0.75\"/>", sep = "")
 
 
-      cnum<-10000 #颜色板色彩的数量设置
+      cnum<-10000
 
-      mydata_interval$color <- colorRampPalette(colorset2)(cnum)[round(rescale(mydata_interval$Value,to=c(1,cnum)))] #根据value配置颜色，使用白色则要求mydata_interval中基因组均有value
+      mydata_interval$color <- colorRampPalette(colorset2)(cnum)[round(rescale(mydata_interval$Value,to=c(1,cnum)))]
 
       mydata_interval<-merge(mydata_interval,data.frame(Chr=karyotype$Chr,ChrEnd=karyotype$End,x1=karyotype$x1,x2=karyotype$x2),by="Chr")
 
@@ -316,7 +316,7 @@ ideogram <- function(karyotype, overlaid = NULL, label = NULL, colorset1 = c("#4
                                    " Z" ,"\" style=\"fill:", mydata_interval$color, "; stroke:", mydata_interval$color, "; stroke-width:0.25\"/>", sep = "")
 
       # legend for mydata_interval
-      mydata2_legend <- data.frame(color=colorRampPalette(colorset2)(cnum)) #颜色与上面data1的设置保持一致
+      mydata2_legend <- data.frame(color=colorRampPalette(colorset2)(cnum))
       mydata2_legend$x1<-apply(data.frame(1:cnum),1,function(x)(Lx * mpx + (x[1] - 1) * ((20 * mpx) / cnum)))
       mydata2_legend$y1<-Ly * mpx + 4 + 12 * mpx
       mydata2_legend$legend<-paste("<rect x=\"", mydata2_legend$x1, "\" y=\"", mydata2_legend$y1,
@@ -336,7 +336,7 @@ ideogram <- function(karyotype, overlaid = NULL, label = NULL, colorset1 = c("#4
   }
 
 
-  #写入文件头
+  #write the head
   first_line <- c("<?xml version=\"1.0\" standalone=\"no\"?>",
                   "<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\"",
                   "\"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">",
@@ -349,14 +349,14 @@ ideogram <- function(karyotype, overlaid = NULL, label = NULL, colorset1 = c("#4
 
   cat(mydata$rect, file = output, append = TRUE)
 
-  #染色体轮廓
+  #write the idiograms
   cat(karyotype$hat, file = output, append = TRUE)
   cat(karyotype$shoe, file = output, append = TRUE)
   cat(karyotype$bow, file = output, append = TRUE)
   cat(karyotype$path, file = output, append = TRUE)
   cat(karyotype$text, file = output, append = TRUE)
 
-  #色彩legend
+  #legend
   ## write.table(mydata_legend$legend, output, col.names = FALSE, row.names = FALSE, quote = FALSE, append = TRUE)
   ## write.table(legend_text[1,1], output, col.names = FALSE, row.names = FALSE, quote = FALSE, append = TRUE)
   ## write.table(legend_text[1,2], output, col.names = FALSE, row.names = FALSE, quote = FALSE, append = TRUE)
@@ -373,10 +373,9 @@ ideogram <- function(karyotype, overlaid = NULL, label = NULL, colorset1 = c("#4
                                
   if (!is.null(mydata_interval)) {
     if (!is.null(mydata_interval$interval)){
-      ## 连线，不想要染色体和标记之间连线的，就不运行这行
+      
       cat(mydata_interval$line, file = output, append = TRUE)
 
-      ## 形状和形状的legend，不想要染色体旁边标记的，不运行这部分
       cat(mydata2_legend$shape, file = output, append = TRUE)
       cat(mydata2_legend$name, file = output, append = TRUE)
       
@@ -392,8 +391,7 @@ ideogram <- function(karyotype, overlaid = NULL, label = NULL, colorset1 = c("#4
   }
 
 
-  ## 必备的语句
-  ##文件尾
+  ##write the tail
   cat("</svg>", file = output, append = TRUE)
 
 }
