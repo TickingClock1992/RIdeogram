@@ -186,23 +186,29 @@ ideogram <- function(karyotype, overlaid = NULL, label = NULL, colorset1 = c("#4
       }
 
       mydata_interval_triangle<- mydata_interval[mydata_interval$Shape == "triangle",]
-      mydata_interval_triangle$interval <- paste("<path d=\"M", mydata_interval_triangle$x - chr_width / 4, ",", mydata_interval_triangle$y + chr_width / 4,
-                                                 " L", mydata_interval_triangle$x + chr_width / 4, ",", mydata_interval_triangle$y + chr_width / 4,
-                                                 " L", mydata_interval_triangle$x, ",", mydata_interval_triangle$y - chr_width / 4,
-                                                 " Z" ,"\" style=\"fill:#", mydata_interval_triangle$color, ";stroke:none\"/>", sep = "")
+      if ("triangle" %in% mydata_interval$Shape){
+        mydata_interval_triangle$interval <- paste("<path d=\"M", mydata_interval_triangle$x - chr_width / 4, ",", mydata_interval_triangle$y + chr_width / 4,
+                                                   " L", mydata_interval_triangle$x + chr_width / 4, ",", mydata_interval_triangle$y + chr_width / 4,
+                                                   " L", mydata_interval_triangle$x, ",", mydata_interval_triangle$y - chr_width / 4,
+                                                   " Z" ,"\" style=\"fill:#", mydata_interval_triangle$color, ";stroke:none\"/>", sep = "")
+      }
 
       mydata_interval_box<- mydata_interval[mydata_interval$Shape == "box",]
-      mydata_interval_box$interval <- paste("<rect x=\"", mydata_interval_box$x - chr_width / 4,
-                                            "\" y=\"", mydata_interval_box$y - chr_width / 4,
-                                            "\" width=\"", chr_width / 2,
-                                            "\" height=\"", chr_width / 2,
-                                            "\" style=\"fill:#", mydata_interval_box$color, "; stroke:none\"/>", sep = "")
+      if ("box" %in% mydata_interval$Shape){    
+        mydata_interval_box$interval <- paste("<rect x=\"", mydata_interval_box$x - chr_width / 4,
+                                              "\" y=\"", mydata_interval_box$y - chr_width / 4,
+                                              "\" width=\"", chr_width / 2,
+                                              "\" height=\"", chr_width / 2,
+                                              "\" style=\"fill:#", mydata_interval_box$color, "; stroke:none\"/>", sep = "")
+      }
 
       mydata_interval_circle<- mydata_interval[mydata_interval$Shape == "circle",]
-      mydata_interval_circle$interval <- paste("<circle cx=\"", mydata_interval_circle$x,
-                                               "\" cy=\"", mydata_interval_circle$y,
-                                               "\" r=\"", chr_width / 4,
-                                               "\" style=\"fill:#", mydata_interval_circle$color, "; stroke:none\"/>", sep = "")
+      if ("circle" %in% mydata_interval$Shape) {
+        mydata_interval_circle$interval <- paste("<circle cx=\"", mydata_interval_circle$x,
+                                                 "\" cy=\"", mydata_interval_circle$y,
+                                                 "\" r=\"", chr_width / 4,
+                                                 "\" style=\"fill:#", mydata_interval_circle$color, "; stroke:none\"/>", sep = "")
+      }
 
       mydata_interval<-rbind(mydata_interval_box,mydata_interval_circle,mydata_interval_triangle)
       mydata_interval$line <- paste("<line x1=\"", mydata_interval$x2,
