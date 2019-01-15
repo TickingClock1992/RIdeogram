@@ -123,7 +123,7 @@ convertSVG("chromosome.svg", device = "png")
 
 <img src="figures/example4.png" width="100%" />
 
-If you want to change the color of heatmap, you can modify the argument 'colorset' (default set is colorset = c("#4575b4", "#ffffbf", "#d73027")). You can use either color names as listed by `colors()` or hexadecimal strings of the form "#rrggbb" or "#rrggbbaa".
+If you want to change the color of heatmap, you can modify the argument 'colorset1' (default set is colorset1 = c("#4575b4", "#ffffbf", "#d73027")). You can use either color names as listed by `colors()` or hexadecimal strings of the form "#rrggbb" or "#rrggbbaa".
 
 ```r
 ideogram(karyotype = human_karyotype, overlaid = gene_density, label = Random_RNAs_500, colorset1 = c("#fc8d59", "#ffffbf", "#91bfdb"))
