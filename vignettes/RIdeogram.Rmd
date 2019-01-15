@@ -168,7 +168,7 @@ convertSVG("chromosome.svg", device = "png")
 
 If you want to move the Legend, then you need to modify the arguments 'Lx' and 'Ly'(default values are "160" and "35", separately).
 
-'Lx' means the distance between upper-left point of the Legend and the leaf margin; 'Ly' means the distance between upper-left point of the Legend and the upper margin.
+'Lx' means the distance between upper-left point of the Legend and the left margin; 'Ly' means the distance between upper-left point of the Legend and the upper margin.
 
 ```r
 ideogram(karyotype = human_karyotype, overlaid = gene_density, label = Random_RNAs_500, width = 100, Lx = 80, Ly = 25)
