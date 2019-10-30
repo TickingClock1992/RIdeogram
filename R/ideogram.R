@@ -38,13 +38,14 @@
 ##'
 ##' @author Zhaodong Hao, Dekang Lv, Ying Ge, Jisen Shi, Dolf Weijers, Guangchuang Yu, Jinhui Chen
 ##'
-ideogram <- function(karyotype, overlaid = NULL, label = NULL, colorset1 = c("#4575b4", "#ffffbf", "#d73027"), colorset2 = c("#b35806", "#f7f7f7", "#542788"), width = 170, Lx = 160, Ly = 35, output = "chromosome.svg") {
+ideogram <- function(karyotype, overlaid = NULL, label = NULL, synteny = NULL, colorset1 = c("#4575b4", "#ffffbf", "#d73027"), colorset2 = c("#b35806", "#f7f7f7", "#542788"), width = 170, Lx = 160, Ly = 35, output = "chromosome.svg") {
   karyotype <- karyotype
   mydata <- overlaid
   mydata_interval <- label
+  synteny_data <- synteny
 
   col_num <- ncol(karyotype)
-  
+
   if (!is.null(synteny)) {
     if (length(table(karyotype$species)) == 2){
       # karyotype rect
@@ -569,7 +570,7 @@ ideogram <- function(karyotype, overlaid = NULL, label = NULL, colorset1 = c("#4
                              " L", karyotype$x6, ",", karyotype$y6,
                              " A", chr_width/2, ",", chr_width/2, " 0 1,1 ", karyotype$x5, ",", karyotype$y5,
                              " Z" ,"\" style=\"fill:none; stroke:grey; stroke-width:1\"/>", sep = "")
-      }
+    }
 
     karyotype$hat = paste("<path d=\"M", karyotype$x1, ",", karyotype$y1,
                           " A", chr_width/2, ",", chr_width/2, " 0 1,1 ", karyotype$x2, ",", karyotype$y2,
@@ -632,7 +633,7 @@ ideogram <- function(karyotype, overlaid = NULL, label = NULL, colorset1 = c("#4
     }
     if (!is.null(mydata_interval)) {
       if (ncol(mydata_interval) == 6){
-      
+
         mydata_interval<-merge(mydata_interval,data.frame(Chr=karyotype$Chr,ChrEnd=karyotype$End,x2=karyotype$x2),by="Chr")
 
         mydata_interval$x <- mydata_interval$x2 + chr_width / 2
@@ -651,7 +652,7 @@ ideogram <- function(karyotype, overlaid = NULL, label = NULL, colorset1 = c("#4
           mydata[sp]<-mydata[sp]-myforce
           mydata[ep]<-mydata[ep]+myforce
           mydepo<-sort(mydata)
-         return(repel(mydepo,myforce,tag))
+          return(repel(mydepo,myforce,tag))
         }
 
         mydata_interval$y <- NA
@@ -670,7 +671,7 @@ ideogram <- function(karyotype, overlaid = NULL, label = NULL, colorset1 = c("#4
         }
 
         mydata_interval_box<- mydata_interval[mydata_interval$Shape == "box",]
-        if ("box" %in% mydata_interval$Shape){    
+        if ("box" %in% mydata_interval$Shape){
           mydata_interval_box$interval <- paste("<rect x=\"", mydata_interval_box$x - chr_width / 4,
                                                 "\" y=\"", mydata_interval_box$y - chr_width / 4,
                                                 "\" width=\"", chr_width / 2,
@@ -702,7 +703,7 @@ ideogram <- function(karyotype, overlaid = NULL, label = NULL, colorset1 = c("#4
         mydata2_legend$x <- Lx * mpx
         mydata2_legend$y<-apply(data.frame(1:nrow(mydata2_legend)),1,
                                 function(x)(Ly * mpx + 4 + (12 + (x[1] - 1) * 4 ) * mpx))
-                                #function(x)(mydata_legend$y1[1]+ 4 + (12 + (x[1] - 1) * 4 ) * mpx))
+        #function(x)(mydata_legend$y1[1]+ 4 + (12 + (x[1] - 1) * 4 ) * mpx))
 
         mydata2_legend$x1<-mydata2_legend$x + 4
         mydata2_legend$y1<-mydata2_legend$y- 4 * mpx / 2
@@ -726,7 +727,7 @@ ideogram <- function(karyotype, overlaid = NULL, label = NULL, colorset1 = c("#4
                                           mydata2_legend[i,10], "\" r=\"", 4, "\" style=\"fill:#",
                                           mydata2_legend[i, 6], ";stroke:none\"/>", sep = "")
           }
-         }
+        }
         names(mydata2_legend)[11] <- "shape"
 
         for (i in 1:nrow(mydata2_legend)){
@@ -757,29 +758,29 @@ ideogram <- function(karyotype, overlaid = NULL, label = NULL, colorset1 = c("#4
                                   " Z" ,"\" style=\"fill:none; stroke:grey; stroke-width:1\"/>", sep = "")
         } else {
           karyotype$path2 = paste("<path d=\"M", karyotype$x1 + 1.2 * chr_width, ",", karyotype$y1,
-                                 " A", chr_width/2, ",", chr_width/2, " 0 1,1 ", karyotype$x2 + 1.2 * chr_width, ",", karyotype$y2,
-                                 " L", karyotype$x6 + 1.2 * chr_width, ",", karyotype$y6,
-                                 " A", chr_width/2, ",", chr_width/2, " 0 1,1 ", karyotype$x5 + 1.2 * chr_width, ",", karyotype$y5,
-                                 " Z" ,"\" style=\"fill:none; stroke:grey; stroke-width:1\"/>", sep = "")
+                                  " A", chr_width/2, ",", chr_width/2, " 0 1,1 ", karyotype$x2 + 1.2 * chr_width, ",", karyotype$y2,
+                                  " L", karyotype$x6 + 1.2 * chr_width, ",", karyotype$y6,
+                                  " A", chr_width/2, ",", chr_width/2, " 0 1,1 ", karyotype$x5 + 1.2 * chr_width, ",", karyotype$y5,
+                                  " Z" ,"\" style=\"fill:none; stroke:grey; stroke-width:1\"/>", sep = "")
         }
 
         karyotype$hat2 = paste("<path d=\"M", karyotype$x1 + 1.2 * chr_width, ",", karyotype$y1,
-                              " A", chr_width/2, ",", chr_width/2, " 0 1,1 ", karyotype$x2 + 1.2 * chr_width, ",", karyotype$y2,
-                              " L", karyotype$x10 + 1.2 * chr_width, ",", karyotype$y10,
-                              " L", karyotype$x9 + 1.2 * chr_width, ",", karyotype$y9,
-                              " Z" ,"\" style=\"fill:white; stroke:white; stroke-width:0.75\"/>", sep = "")
-
-        karyotype$shoe2 = paste("<path d=\"M", karyotype$x5 + 1.2 * chr_width, ",", karyotype$y5,
-                               " A", chr_width/2, ",", chr_width/2, " 0 0,0 ", karyotype$x6 + 1.2 * chr_width, ",", karyotype$y6,
-                               " L", karyotype$x11 + 1.2 * chr_width, ",", karyotype$y11,
-                               " L", karyotype$x12 + 1.2 * chr_width, ",", karyotype$y12,
+                               " A", chr_width/2, ",", chr_width/2, " 0 1,1 ", karyotype$x2 + 1.2 * chr_width, ",", karyotype$y2,
+                               " L", karyotype$x10 + 1.2 * chr_width, ",", karyotype$y10,
+                               " L", karyotype$x9 + 1.2 * chr_width, ",", karyotype$y9,
                                " Z" ,"\" style=\"fill:white; stroke:white; stroke-width:0.75\"/>", sep = "")
 
+        karyotype$shoe2 = paste("<path d=\"M", karyotype$x5 + 1.2 * chr_width, ",", karyotype$y5,
+                                " A", chr_width/2, ",", chr_width/2, " 0 0,0 ", karyotype$x6 + 1.2 * chr_width, ",", karyotype$y6,
+                                " L", karyotype$x11 + 1.2 * chr_width, ",", karyotype$y11,
+                                " L", karyotype$x12 + 1.2 * chr_width, ",", karyotype$y12,
+                                " Z" ,"\" style=\"fill:white; stroke:white; stroke-width:0.75\"/>", sep = "")
+
         karyotype$bow2 = paste("<path d=\"M", karyotype$x8 + 1.2 * chr_width, ",", karyotype$y8,
-                              " L", karyotype$x7 + 1.2 * chr_width, ",", karyotype$y7,
-                              " L", karyotype$x3 + 1.2 * chr_width, ",", karyotype$y3,
-                              " L", karyotype$x4 + 1.2 * chr_width, ",", karyotype$y4,
-                              " Z" ,"\" style=\"fill:white; stroke:white; stroke-width:0.75\"/>", sep = "")
+                               " L", karyotype$x7 + 1.2 * chr_width, ",", karyotype$y7,
+                               " L", karyotype$x3 + 1.2 * chr_width, ",", karyotype$y3,
+                               " L", karyotype$x4 + 1.2 * chr_width, ",", karyotype$y4,
+                               " Z" ,"\" style=\"fill:white; stroke:white; stroke-width:0.75\"/>", sep = "")
 
 
         cnum<-10000
@@ -813,10 +814,11 @@ ideogram <- function(karyotype, overlaid = NULL, label = NULL, colorset1 = c("#4
                                 "\" y=\"", min(mydata2_legend$y1) + 8 * mpx - 3,
                                 "\" font-size=\"12\" font-family=\"Arial\" fill=\"black\" >High</text>", sep = "")
         )
+
       }
     }
   }
-                               
+
   #write the head
   first_line <- c("<?xml version=\"1.0\" standalone=\"no\"?>",
                   "<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\"",
@@ -827,7 +829,7 @@ ideogram <- function(karyotype, overlaid = NULL, label = NULL, colorset1 = c("#4
 
 
   cat(first_line, file = output)
-                               
+
   if (!is.null(synteny)){
     if (length(table(karyotype$species)) == 2){
       cat(species[1, 1], file = output, append = TRUE)
@@ -898,15 +900,15 @@ ideogram <- function(karyotype, overlaid = NULL, label = NULL, colorset1 = c("#4
 
     cat(mydata_interval$interval, file = output, append = TRUE)
     cat(mydata_interval$rect, file = output, append = TRUE)
-                               
+
     if (!is.null(mydata_interval)) {
       if (!is.null(mydata_interval$interval)){
-      
+
         cat(mydata_interval$line, file = output, append = TRUE)
 
         cat(mydata2_legend$shape, file = output, append = TRUE)
         cat(mydata2_legend$name, file = output, append = TRUE)
-      
+
       } else if (!is.null(mydata_interval$rect)) {
         cat(karyotype$hat2, file = output, append = TRUE)
         cat(karyotype$shoe2, file = output, append = TRUE)
@@ -915,8 +917,11 @@ ideogram <- function(karyotype, overlaid = NULL, label = NULL, colorset1 = c("#4
         cat(legend_text2, file = output, append = TRUE)
         cat(mydata2_legend$legend, file = output, append = TRUE)
       }
+
     }
   }
+
   ##write the tail
   cat("</svg>", file = output, append = TRUE)
+
 }
