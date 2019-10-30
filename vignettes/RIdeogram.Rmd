@@ -239,6 +239,11 @@ convertSVG("chromosome.svg", device = "png")
 
 <img src="figures/example12.png" width="100%" />
 
-In addition, if you want use gradient color for the bezier curves which you want to highlighted (red lines in the above picture), just replace the red color "e41a1c" with "gradient" in the seventh column, and then run the code again
+In addition, if you want use gradient color for the bezier curves which you want to highlighted (red lines in the above picture), just replace the red color "e41a1c" with "gradient" in the seventh column, and then run the following code
 
+```r
+ideogram(karyotype = karyotype_ternary_comparison, synteny = synteny_ternary_comparison)
+library("rsvg")
+rsvg_pdf("chromosome.svg", "chromosome.pdf")
+```
 <img src="figures/example13.png" width="100%" />
