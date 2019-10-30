@@ -24,7 +24,7 @@ RIdeogram is a R package to draw SVG (Scalable Vector Graphics) graphics to visu
 
 If you use this package in a published paper, please cite this paper:
 
-Zhaodong Hao, Dekang Lv, Ying Ge, Jisen Shi, Guangchuang Yu, and Jinhui Chen (2018). RIdeogram: Drawing SVG graphics to visualize and map genome-wide data in idiograms. R package version 0.1.0.
+Zhaodong Hao, Dekang Lv, Ying Ge, Jisen Shi, Dolf Weijers, Guangchuang Yu, and Jinhui Chen (2018). RIdeogram: Drawing SVG graphics to visualize and map genome-wide data in idiograms. R package version 0.1.0.
 
 ## Usage and Examples
 
@@ -79,7 +79,7 @@ These three files are all you need, now you can visualize these information usin
 Basic usage
 
 ```r
-ideogram(karyotype, overlaid = NULL, label = NULL, colorset1, colorset2, width, Lx, Ly, output = "chromosome.svg")
+ideogram(karyotype, overlaid = NULL, label = NULL, synteny = NULL, colorset1, colorset2, width, Lx, Ly, output = "chromosome.svg")
 convertSVG(svg, device, width, height, dpi)
 ```
 
@@ -200,3 +200,45 @@ svg2pdf("chromosome.svg")
 svg2jpg("chromosome.svg")
 svg2png("chromosome.svg")
 ```
+
+New features: Now, we can use the ideogram function to visualize the genome synteny between two or three genomes.
+
+For dual genome comparison, load the example data first,
+```{r}
+data(karyotype_dual_comparison, package="RIdeogram")
+data(synteny_dual_comparison, package="RIdeogram")
+```
+
+If you want to import your own data, using "read.table" function as mentioned above. One thing you need to notice is that the format of karyotype for genome synteny visualization is a little bit different:
+First three columns are the same, the fourth is the color you want to fill the idiograms, the fifth is the name of species, the rest two columns are the size and color of species name. This karyotype file contains information of two genomes with species A (Grape) prior to species B (Populus).
+And, for dual genome synteny file: the first three columns are position information in species A (Grape) and the next three columns are position information in species B (Populus) of corresponding synteny blocks, the last column is the color of the bezier curves which link corresponding synteny blocks. Please sort the colourful lines to the last as possiable as you can.
+
+Then, run the code as folloing
+
+```r
+ideogram(karyotype = karyotype_dual_comparison, synteny = synteny_dual_comparison)
+convertSVG("chromosome.svg", device = "png")
+```
+
+<img src="figures/example11.png" width="100%" />
+
+For ternary genome comparison, load the example data first,
+```{r}
+data(karyotype_ternary_comparison, package="RIdeogram")
+data(synteny_ternary_comparison, package="RIdeogram")
+```
+
+The format of karyotype for ternary genome synteny visualization is similar to that of dual genome syteny visualization, just contains one more species karyotype information. However, the synteny file is different from that for dual genome syteny visualization. Due to this synteny file contains three comparisons, i.e., species A_vs_B, species A_vs_C and species B_vs_C, we add one additional column with the number "1" being representative of the species A_vs_B, "2" being representative of the species A_vs_C and "3" being representative of the species B_vs_C.
+
+Then, run the code as following
+
+```r
+ideogram(karyotype = karyotype_ternary_comparison, synteny = synteny_ternary_comparison)
+convertSVG("chromosome.svg", device = "png")
+```
+
+<img src="figures/example12.png" width="100%" />
+
+In addition, if you want use gradient color for the bezier curves which you want to highlighted (red lines in the above picture), just replace the red color "e41a1c" with "gradient" in the seventh column, and then run the code again
+
+<img src="figures/example13.png" width="100%" />
