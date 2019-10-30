@@ -5,6 +5,7 @@
 ##' @param karyotype karyotype data
 ##' @param overlaid overlaid data
 ##' @param label track label data
+##' @param synteny synteny data
 ##' @param colorset1 overlaid heatmap-1 color
 ##' @param colorset2 overlaid heatmap-2 color
 ##' @param width width of plot region
@@ -35,7 +36,7 @@
 ##'
 ##' # Then, you will find a SVG file and a PNG file in your Working Directory.
 ##'
-##' @author Zhaodong Hao, Dekang Lv, Ying Ge, Jisen Shi, Guangchuang Yu, Jinhui Chen
+##' @author Zhaodong Hao, Dekang Lv, Ying Ge, Jisen Shi, Dolf Weijers, Guangchuang Yu, Jinhui Chen
 ##'
 ideogram <- function(karyotype, overlaid = NULL, label = NULL, colorset1 = c("#4575b4", "#ffffbf", "#d73027"), colorset2 = c("#b35806", "#f7f7f7", "#542788"), width = 170, Lx = 160, Ly = 35, output = "chromosome.svg") {
   karyotype <- karyotype
@@ -43,8 +44,483 @@ ideogram <- function(karyotype, overlaid = NULL, label = NULL, colorset1 = c("#4
   mydata_interval <- label
 
   col_num <- ncol(karyotype)
+  
+  if (!is.null(synteny)) {
+    if (length(table(karyotype$species)) == 2){
+      # karyotype rect
+      # 1.5cm was left for the corresponding species name & interval between chr is 0.1cm
+      chr_width_total_1 <- ((17 - 1.5) - (table(karyotype$species)[1] - 1) * 0.1) * 35.43307
+      karyotype_total_1 <- sum(karyotype$End[1:table(karyotype$species)[1]])
 
-  mpx<-3.543307 #conversion ratio
+      for (i in 1:table(karyotype$species)[1]) {
+        j = i - 1
+        if (i == 1)
+          karyotype[i, 8] <- 3.5*35.43307
+        else
+          karyotype[i, 8] <- 3.5*35.43307 + sum(karyotype[1:j,3]) * chr_width_total_1 / karyotype_total_1 + (i-1)*0.1*35.43307
+      }
+      names(karyotype)[8] <- "x"
+
+      karyotype$y = 2.5*35.43307
+
+      # karyotype rect
+
+      # interval between chr is 0.1cm
+      chr_width_total_2 <- ((17 - 1.5) - (table(karyotype$species)[2] - 1) * 0.1) * 35.43307
+      karyotype_total_2 <- sum(karyotype$End[(table(karyotype$species)[1] + 1):(table(karyotype$species)[1] + table(karyotype$species)[2])])
+
+      for (i in (table(karyotype$species)[1] + 1):(table(karyotype$species)[1] + table(karyotype$species)[2])) {
+        karyotype[i, 9] = (2.5 + 0.5 + 5)*35.43307
+        j = i - 1
+        if (i == table(karyotype$species)[1] + 1)
+          karyotype[i, 8] <- 3.5*35.43307
+        else
+          karyotype[i, 8] <- 3.5*35.43307 + sum(karyotype[(table(karyotype$species)[1] + 1):j,3]) * chr_width_total_2 / karyotype_total_2 + (i-table(karyotype$species)[1]-1)*0.1*35.43307
+      }
+
+      #
+      karyotype$rx = 2
+
+      karyotype$ry = 2
+
+      for (i in 1:table(karyotype$species)[1]) {
+        karyotype[i, 12] <- karyotype[i, 3] * chr_width_total_1 / karyotype_total_1
+      }
+      for (i in (table(karyotype$species)[1] + 1):(table(karyotype$species)[1] + table(karyotype$species)[2])) {
+        karyotype[i, 12] <- karyotype[i, 3] * chr_width_total_2 / karyotype_total_2
+      }
+      names(karyotype)[12] <- "width"
+
+      karyotype$rect_outer = paste("<rect x=\"", karyotype$x, "\" y=\"", karyotype$y, "\" rx=\"", karyotype$rx,  "\" ry=\"", karyotype$ry,  "\" width=\"", karyotype$width,  "\" height=\"17.71654\" style=\"fill:#f7f7f7;stroke:black;stroke-width:0.5\"/>", sep = "")
+      karyotype$rect_inner = paste("<rect x=\"", karyotype$x, "\" y=\"", karyotype$y + 3, "\" rx=\"", karyotype$rx,  "\" ry=\"", karyotype$ry,  "\" width=\"", karyotype$width,  "\" height=\"11.71654\" style=\"fill:#", karyotype$fill, ";stroke:#", karyotype$fill, ";stroke-width:0.5\"/>", sep = "")
+
+      #synteny
+      for (i in 1: nrow(synteny)) {
+        j = synteny[i, 1] - 1
+        if (synteny[i, 1] == "1")
+          synteny[i, 8] <- 3.5*35.43307 + synteny[i, 2] * chr_width_total_1 / karyotype_total_1
+        else
+          synteny[i, 8] <- 3.5*35.43307 + synteny[i, 2] * chr_width_total_1 / karyotype_total_1 + sum(karyotype[1:j,3]) * chr_width_total_1 / karyotype_total_1 + j*0.1*35.43307
+      }
+      names(synteny)[8] <- "x1"
+
+      synteny$y1 <- (2.5 + 0.5)*35.43307
+
+      for (i in 1: nrow(synteny)) {
+        j = synteny[i, 4] - 1
+        if (synteny[i, 4] == "1")
+          synteny[i, 10] <- 3.5*35.43307 + synteny[i, 5] * chr_width_total_2 / karyotype_total_2
+        else
+          synteny[i, 10] <- 3.5*35.43307 + synteny[i, 5] * chr_width_total_2 / karyotype_total_2 + sum(karyotype[(table(karyotype$species)[1] + 1):(table(karyotype$species)[1] + j),3]) * chr_width_total_2 / karyotype_total_2 + j*0.1*35.43307
+      }
+      names(synteny)[10] <- "x2"
+
+      synteny$y2 <- (2.5 + 0.5 + 5)*35.43307
+
+      for (i in 1: nrow(synteny)) {
+        j = synteny[i, 4] - 1
+        if (synteny[i, 4] == "1")
+          synteny[i, 12] <- 3.5*35.43307 + synteny[i, 6] * chr_width_total_2 / karyotype_total_2
+        else
+          synteny[i, 12] <- 3.5*35.43307 + synteny[i, 6] * chr_width_total_2 / karyotype_total_2 + sum(karyotype[(table(karyotype$species)[1] + 1):(table(karyotype$species)[1] + j),3]) * chr_width_total_2 / karyotype_total_2 + j*0.1*35.43307
+      }
+      names(synteny)[12] <- "x3"
+
+      synteny$y3 <- (2.5 + 0.5 + 5)*35.43307
+
+      for (i in 1: nrow(synteny)) {
+        j = synteny[i, 1] - 1
+        if (synteny[i, 1] == "1")
+          synteny[i, 14] <- 3.5*35.43307 + synteny[i, 3] * chr_width_total_1 / karyotype_total_1
+        else
+          synteny[i, 14] <- 3.5*35.43307 + synteny[i, 3] * chr_width_total_1 / karyotype_total_1 + sum(karyotype[1:j,3]) * chr_width_total_1 / karyotype_total_1 + j*0.1*35.43307
+      }
+      names(synteny)[14] <- "x4"
+
+      synteny$y4 <- (2.5 + 0.5)*35.43307
+
+      synteny$x5 <- synteny$x1
+
+      synteny$y5 <- synteny$y1 + 1.5*35.43307
+
+      synteny$x6 <- (synteny$x1 + synteny$x2) / 2
+
+      synteny$y6 <- (synteny$y1 + synteny$y2) / 2
+
+      synteny$x7 <- synteny$x3
+
+      synteny$y7 <- synteny$y3 - 1.5*35.43307
+
+      synteny$x8 <- (synteny$x3 + synteny$x4) / 2
+
+      synteny$y8 <- (synteny$y3 + synteny$y4) / 2
+
+      synteny$path <- paste(paste("<path d=\"M", synteny$x1, synteny$y1, "Q", synteny$x5, synteny$y5, synteny$x6, synteny$y6, "T", synteny$x2, synteny$y2, "L", synteny$x3, synteny$y3, "Q", synteny$x7, synteny$y7, synteny$x8, synteny$y8, "T", synteny$x4, synteny$y4, "Z\""), paste(" stroke=\"#", synteny$fill, "\" fill=\"#", synteny$fill, "\" style=\"stroke-width: 0.5px;\"/>", sep = ""), sep = "")
+
+      # text model <text x y font-size fill >words</text>
+
+      species <- data.frame(paste("<text x=\"", 2 * 35.43307, "\" y=\"", (2.5 + 0.5) * 35.43307 - 3, "\" font-size=\"", karyotype[1,6], "\" fill=\"#", karyotype[1,7], "\" >", karyotype[1,5], "</text>", sep = ""),
+                            paste("<text x=\"", 2 * 35.43307, "\" y=\"", (2.5 + 0.5 + 5 + 0.5) * 35.43307 - 3, "\" font-size=\"", karyotype[table(karyotype$species)[1]+1,6], "\" fill=\"#", karyotype[table(karyotype$species)[1]+1,7], "\" >", karyotype[table(karyotype$species)[1]+1,5], "</text>", sep = ""),
+                            stringsAsFactors = FALSE
+      )
+
+      for (i in 1 : table(karyotype$species)[1]){
+        karyotype[i,15] = paste("<text x=\"", (karyotype[i, 8] + karyotype[i, 8] + karyotype[i, 12])/2 - nchar(karyotype[i, 1]) * 2.1, "\" y=\"", karyotype[i, 9] - 0.1 * 35.43307, "\" font-size=\"9\" fill=\"black\" >", karyotype[i, 1], "</text>", sep = "")
+      }
+      for (i in (table(karyotype$species)[1] + 1) : (table(karyotype$species)[1] + table(karyotype$species)[2])){
+        karyotype[i,15] = paste("<text x=\"", (karyotype[i, 8] + karyotype[i, 8] + karyotype[i, 12])/2 - nchar(karyotype[i, 1]) * 2.1, "\" y=\"", karyotype[i, 9] + (0.1 + 0.5 + 0.15) * 35.43307, "\" font-size=\"9\" fill=\"black\" >", karyotype[i, 1], "</text>", sep = "")
+      }
+      names(karyotype)[15] <- "text"
+
+    } else if (length(table(karyotype$species)) == 3){
+      #karyotype_1
+      chr_width_total_1 <- (11 - (table(karyotype$species)[1] - 1) * 0.04) * 35.43307
+      karyotype_total_1 <- sum(karyotype$End[1:table(karyotype$species)[1]])
+
+      for (i in 1:table(karyotype$species)[1]) {
+        j = i - 1
+        if (i == 1)
+          karyotype[i, 8] <- 3*35.43307
+        else
+          karyotype[i, 8] <- 3*35.43307 + sum(karyotype[1:j,3]) * chr_width_total_1 / karyotype_total_1 + (i-1)*0.04*35.43307
+      }
+      names(karyotype)[8] <- "x"
+
+      karyotype$y = (2.5 + 11.25833)*35.43307
+
+      karyotype$rx = 1
+
+      karyotype$ry = 1
+
+      for (i in 1:table(karyotype$species)[1]) {
+        karyotype[i, 12] <- karyotype[i, 3] * chr_width_total_1 / karyotype_total_1
+      }
+      names(karyotype)[12] <- "width"
+
+      for (i in 1:table(karyotype$species)[1]) {
+        karyotype[i, 13] <- paste("<rect x=\"", karyotype[i, 8], "\" y=\"", karyotype[i, 9], "\" rx=\"", karyotype[i, 10],  "\" ry=\"", karyotype[i, 11],  "\" width=\"", karyotype[i, 12],  "\" height=\"8\" style=\"fill:f7f7f7;stroke:black;stroke-width:0.1;fill-opacity:0\"/>", sep = "")
+        karyotype[i, 14] <- paste("<rect x=\"", karyotype[i, 8], "\" y=\"", karyotype[i, 9] + 2, "\" rx=\"", karyotype[i, 10],  "\" ry=\"", karyotype[i, 11],  "\" width=\"", karyotype[i, 12],  "\" height=\"4\" style=\"fill:#", karyotype[i, 4], ";stroke:#", karyotype[i, 4], ";stroke-width:0.1\"/>", sep = "")
+      }
+      names(karyotype)[13] <- "rect_outer"
+      names(karyotype)[14] <- "rect_inner"
+
+      # karyotype_2
+      chr_width_total_2 <- (11 - (table(karyotype$species)[2] - 1) * 0.04) * 35.43307
+      karyotype_total_2 <- sum(karyotype$End[(table(karyotype$species)[1] + 1):(table(karyotype$species)[1] + table(karyotype$species)[2])])
+
+      for (i in (table(karyotype$species)[1] + 1):(table(karyotype$species)[1] + table(karyotype$species)[2])) {
+        j = i - 1
+        if (i == table(karyotype$species)[1] + 1)
+          karyotype[i, 8] <- 3*35.43307
+        else
+          karyotype[i, 8] <- 3*35.43307 + sum(karyotype[(table(karyotype$species)[1] + 1):j,3]) * chr_width_total_2 / karyotype_total_2 + (i- table(karyotype$species)[1] - 1)*0.04*35.43307
+      }
+      names(karyotype)[8] <- "x"
+
+      karyotype$y = (2.5 + 11.25833)*35.43307
+
+      for (i in (table(karyotype$species)[1] + 1):(table(karyotype$species)[1] + table(karyotype$species)[2])) {
+        karyotype[i, 12] <- karyotype[i, 3] * chr_width_total_2 / karyotype_total_2
+      }
+      names(karyotype)[12] <- "width"
+
+      for (i in (table(karyotype$species)[1] + 1):(table(karyotype$species)[1] + table(karyotype$species)[2])) {
+        karyotype[i, 13] <- paste("<rect x=\"", karyotype[i, 8], "\" y=\"", karyotype[i, 9], "\" rx=\"", karyotype[i, 10],  "\" ry=\"", karyotype[i, 11],  "\" width=\"", karyotype[i, 12],  "\" height=\"8\" transform=\"rotate(-60, 70.86614 487.4999)\" style=\"fill:#f7f7f7;stroke:black;stroke-width:0.1;fill-opacity:0\"/>", sep = "")
+        karyotype[i, 14] <- paste("<rect x=\"", karyotype[i, 8], "\" y=\"", karyotype[i, 9] + 2, "\" rx=\"", karyotype[i, 10],  "\" ry=\"", karyotype[i, 11],  "\" width=\"", karyotype[i, 12],  "\" height=\"4\" transform=\"rotate(-60, 70.86614 487.4999)\" style=\"fill:#", karyotype[i, 4], ";stroke:#", karyotype[i, 4], ";stroke-width:0.1\"/>", sep = "")
+      }
+
+      # karyotype_3
+      chr_width_total_3 <- (11 - (table(karyotype$species)[3] - 1) * 0.04) * 35.43307
+      karyotype_total_3 <- sum(karyotype$End[(table(karyotype$species)[1] + table(karyotype$species)[2] + 1):(table(karyotype$species)[1] + table(karyotype$species)[2] + table(karyotype$species)[3])])
+
+      for (i in (table(karyotype$species)[1] + table(karyotype$species)[2] + 1):(table(karyotype$species)[1] + table(karyotype$species)[2] + table(karyotype$species)[3])) {
+        j = i -1
+        if (i == table(karyotype$species)[1] + table(karyotype$species)[2] + 1)
+          karyotype[i, 8] <- 3*35.43307
+        else
+          karyotype[i, 8] <- 3*35.43307 + sum(karyotype[(table(karyotype$species)[1] + table(karyotype$species)[2] + 1):j,3]) * chr_width_total_3 / karyotype_total_3 + (i- table(karyotype$species)[1] - table(karyotype$species)[2] - 1)*0.04*35.43307
+      }
+      names(karyotype)[8] <- "x"
+
+      karyotype$y = (2.5 + 11.25833)*35.43307
+
+      for (i in (table(karyotype$species)[1] + table(karyotype$species)[2] + 1):(table(karyotype$species)[1] + table(karyotype$species)[2] + table(karyotype$species)[3])) {
+        karyotype[i, 12] <- karyotype[i, 3] * chr_width_total_3 / karyotype_total_3
+      }
+      names(karyotype)[12] <- "width"
+
+      for (i in (table(karyotype$species)[1] + table(karyotype$species)[2] + 1):(table(karyotype$species)[1] + table(karyotype$species)[2] + table(karyotype$species)[3])) {
+        karyotype[i, 13] <- paste("<rect x=\"", karyotype[i, 8], "\" y=\"", karyotype[i, 9], "\" rx=\"", karyotype[i, 10],  "\" ry=\"", karyotype[i, 11],  "\" width=\"", karyotype[i, 12],  "\" height=\"8\" transform=\"rotate(60, 531.496 487.4999)\" style=\"fill:#f7f7f7;stroke:black;stroke-width:0.1;fill-opacity:0\"/>", sep = "")
+        karyotype[i, 14] <- paste("<rect x=\"", karyotype[i, 8], "\" y=\"", karyotype[i, 9] + 2, "\" rx=\"", karyotype[i, 10],  "\" ry=\"", karyotype[i, 11],  "\" width=\"", karyotype[i, 12],  "\" height=\"4\" transform=\"rotate(60, 531.496 487.4999)\" style=\"fill:#", karyotype[i, 4], ";stroke:#", karyotype[i, 4], ";stroke-width:0.1\"/>", sep = "")
+      }
+
+      #synteny
+
+      for (i in 1 : nrow(synteny)) {
+        if (synteny[i, 8] == 1){
+          j = synteny[i, 1] - 1
+          if (synteny[i, 1] == "1")
+            synteny[i, 9] <- 3*35.43307 + synteny[i, 2] * chr_width_total_1 / karyotype_total_1
+          else
+            synteny[i, 9] <- 3*35.43307 + synteny[i, 2] * chr_width_total_1 / karyotype_total_1 + sum(karyotype[1:j,3]) * chr_width_total_1 / karyotype_total_1 + j*0.04*35.4330
+        } else if (synteny[i, 8] == 2){
+          j = synteny[i, 1] - 1
+          if (synteny[i, 1] == "1")
+            synteny[i, 9] <- 3*35.43307 + synteny[i, 2] * chr_width_total_1 / karyotype_total_1
+          else
+            synteny[i, 9] <- 3*35.43307 + synteny[i, 2] * chr_width_total_1 / karyotype_total_1 + sum(karyotype[1:j,3]) * chr_width_total_1 / karyotype_total_1 + j*0.04*35.4330
+        } else if (synteny[i, 8] == 3){
+          j = synteny[i, 1] - 1
+          if (synteny[i, 1] == "1")
+            synteny[i, 9] <- (1*35.43307 + synteny[i, 2] * chr_width_total_2 / karyotype_total_2) * cos(pi*(1/3)) + 2 * 35.43307 + 8 * cos(pi*(1/6))
+          else
+            synteny[i, 9] <- (1*35.43307 + synteny[i, 2] * chr_width_total_2 / karyotype_total_2 + sum(karyotype[(table(karyotype$species)[1] + 1):(table(karyotype$species)[1] + j),3]) * chr_width_total_2 / karyotype_total_2 + j*0.04*35.43307) * cos(pi*(1/3)) + 2 * 35.43307 + 8 * cos(pi*(1/6))
+        }
+      }
+      names(synteny)[9] <- "x1"
+
+      for (i in 1 : nrow(synteny)) {
+        if (synteny[i, 8] == 1){
+          synteny[i, 10] <- (2.5 + 11.25833)*35.43307
+        } else if (synteny[i, 8] == 2){
+          synteny[i, 10] <- (2.5 + 11.25833)*35.43307
+        } else if (synteny[i, 8] == 3){
+          j = synteny[i, 1] - 1
+          if (synteny[i, 1] == "1")
+            synteny[i, 10] <- (2.5 + 11.25833)*35.43307 - (1*35.43307 + synteny[i, 2] * chr_width_total_2 / karyotype_total_2) * sin(pi*(1/3)) + 4
+          else
+            synteny[i, 10] <- (2.5 + 11.25833)*35.43307 - (1*35.43307 + synteny[i, 2] * chr_width_total_2 / karyotype_total_2 + sum(karyotype[(table(karyotype$species)[1] + 1):(table(karyotype$species)[1] + j),3]) * chr_width_total_2 / karyotype_total_2 + j*0.04*35.43307) * sin(pi*(1/3)) + 4
+        }
+      }
+      names(synteny)[10] <- "y1"
+
+      for (i in 1 : nrow(synteny)) {
+        if (synteny[i, 8] == 1){
+          j = synteny[i, 1] - 1
+          if (synteny[i, 1] == "1")
+            synteny[i, 11] <- 3*35.43307 + synteny[i, 3] * chr_width_total_1 / karyotype_total_1
+          else
+            synteny[i, 11] <- 3*35.43307 + synteny[i, 3] * chr_width_total_1 / karyotype_total_1 + sum(karyotype[1:j,3]) * chr_width_total_1 / karyotype_total_1 + j*0.04*35.4330
+        } else if (synteny[i, 8] == 2){
+          j = synteny[i, 1] - 1
+          if (synteny[i, 1] == "1")
+            synteny[i, 11] <- 3*35.43307 + synteny[i, 3] * chr_width_total_1 / karyotype_total_1
+          else
+            synteny[i, 11] <- 3*35.43307 + synteny[i, 3] * chr_width_total_1 / karyotype_total_1 + sum(karyotype[1:j,3]) * chr_width_total_1 / karyotype_total_1 + j*0.04*35.4330
+        } else if (synteny[i, 8] == 3){
+          j = synteny[i, 4] - 1
+          if (synteny[i, 4] == "1")
+            synteny[i, 11] <- 15 * 35.43307 - (13 * 35.43307 - (1*35.43307 + synteny[i, 5] * chr_width_total_3 / karyotype_total_3)) * cos(pi*(1/3)) - 8 * cos(pi*(1/6))
+          else
+            synteny[i, 11] <- 15 * 35.43307 - (13 * 35.43307 - (1*35.43307 + synteny[i, 5] * chr_width_total_3 / karyotype_total_3 + sum(karyotype[(table(karyotype$species)[1] + table(karyotype$species)[2] + 1):(table(karyotype$species)[1] + table(karyotype$species)[2] + j),3]) * chr_width_total_3 / karyotype_total_3 + j*0.04*35.43307)) * cos(pi*(1/3)) - 8 * cos(pi*(1/6))
+        }
+      }
+      names(synteny)[11] <- "x2"
+
+      for (i in 1 : nrow(synteny)) {
+        if (synteny[i, 8] == 1){
+          synteny[i, 12] <- (2.5 + 11.25833)*35.43307
+        } else if (synteny[i, 8] == 2){
+          synteny[i, 12] <- (2.5 + 11.25833)*35.43307
+        } else if (synteny[i, 8] == 3){
+          j = synteny[i, 4] - 1
+          if (synteny[i, 4] == "1")
+            synteny[i, 12] <- (2.5 + 11.25833)*35.43307 - (13 * 35.43307 - (1*35.43307 + synteny[i, 5] * chr_width_total_3 / karyotype_total_3)) * sin(pi*(1/3)) + 4
+          else
+            synteny[i, 12] <- (2.5 + 11.25833)*35.43307 - (13 * 35.43307 - (1*35.43307 + synteny[i, 5] * chr_width_total_3 / karyotype_total_3 + sum(karyotype[(table(karyotype$species)[1] + table(karyotype$species)[2] + 1):(table(karyotype$species)[1] + table(karyotype$species)[2] + j),3]) * chr_width_total_3 / karyotype_total_3 + j*0.04*35.43307)) * sin(pi*(1/3)) + 4
+        }
+      }
+      names(synteny)[12] <- "y2"
+
+      for (i in 1 : nrow(synteny)) {
+        if (synteny[i, 8] == 1){
+          j = synteny[i, 4] - 1
+          if (synteny[i, 4] == "1")
+            synteny[i, 13] <- (1*35.43307 + synteny[i, 6] * chr_width_total_2 / karyotype_total_2) * cos(pi*(1/3)) + 2 * 35.43307 + 8 * cos(pi*(1/6))
+          else
+            synteny[i, 13] <- (1*35.43307 + synteny[i, 6] * chr_width_total_2 / karyotype_total_2 + sum(karyotype[(table(karyotype$species)[1] + 1):(table(karyotype$species)[1] + j),3]) * chr_width_total_2 / karyotype_total_2 + j*0.04*35.43307) * cos(pi*(1/3)) + 2 * 35.43307 + 8 * cos(pi*(1/6))
+        } else if (synteny[i, 8] == 2){
+          j = synteny[i, 4] - 1
+          if (synteny[i, 4] == "1")
+            synteny[i, 13] <- 15 * 35.43307 - (13 * 35.43307 - (1*35.43307 + synteny[i, 6] * chr_width_total_3 / karyotype_total_3)) * cos(pi*(1/3)) - 8 * cos(pi*(1/6))
+          else
+            synteny[i, 13] <- 15 * 35.43307 - (13 * 35.43307 - (1*35.43307 + synteny[i, 6] * chr_width_total_3 / karyotype_total_3 + sum(karyotype[(table(karyotype$species)[1] + table(karyotype$species)[2] + 1):(table(karyotype$species)[1] + table(karyotype$species)[2] + j),3]) * chr_width_total_3 / karyotype_total_3 + j*0.04*35.43307)) * cos(pi*(1/3)) - 8 * cos(pi*(1/6))
+        } else if (synteny[i, 8] == 3){
+          j = synteny[i, 4] - 1
+          if (synteny[i, 4] == "1")
+            synteny[i, 13] <- 15 * 35.43307 - (13 * 35.43307 - (1*35.43307 + synteny[i, 6] * chr_width_total_3 / karyotype_total_3)) * cos(pi*(1/3)) - 8 * cos(pi*(1/6))
+          else
+            synteny[i, 13] <- 15 * 35.43307 - (13 * 35.43307 - (1*35.43307 + synteny[i, 6] * chr_width_total_3 / karyotype_total_3 + sum(karyotype[(table(karyotype$species)[1] + table(karyotype$species)[2] + 1):(table(karyotype$species)[1] + table(karyotype$species)[2] + j),3]) * chr_width_total_3 / karyotype_total_3 + j*0.04*35.43307)) * cos(pi*(1/3)) - 8 * cos(pi*(1/6))
+        }
+      }
+      names(synteny)[13] <- "x3"
+
+      for (i in 1 : nrow(synteny)) {
+        if (synteny[i, 8] == 1){
+          j = synteny[i, 4] - 1
+          if (synteny[i, 4] == "1")
+            synteny[i, 14] <- (2.5 + 11.25833)*35.43307 - (1*35.43307 + synteny[i, 6] * chr_width_total_2 / karyotype_total_2) * sin(pi*(1/3)) + 4
+          else
+            synteny[i, 14] <- (2.5 + 11.25833)*35.43307 - (1*35.43307 + synteny[i, 6] * chr_width_total_2 / karyotype_total_2 + sum(karyotype[(table(karyotype$species)[1] + 1):(table(karyotype$species)[1] + j),3]) * chr_width_total_2 / karyotype_total_2 + j*0.04*35.43307) * sin(pi*(1/3)) + 4
+        } else if (synteny[i, 8] == 2){
+          j = synteny[i, 4] - 1
+          if (synteny[i, 4] == "1")
+            synteny[i, 14] <- (2.5 + 11.25833)*35.43307 - (13 * 35.43307 - (1*35.43307 + synteny[i, 6] * chr_width_total_3 / karyotype_total_3)) * sin(pi*(1/3)) + 4
+          else
+            synteny[i, 14] <- (2.5 + 11.25833)*35.43307 - (13 * 35.43307 - (1*35.43307 + synteny[i, 6] * chr_width_total_3 / karyotype_total_3 + sum(karyotype[(table(karyotype$species)[1] + table(karyotype$species)[2] + 1):(table(karyotype$species)[1] + table(karyotype$species)[2] + j),3]) * chr_width_total_3 / karyotype_total_3 + j*0.04*35.43307)) * sin(pi*(1/3)) + 4
+        } else if (synteny[i, 8] == 3){
+          j = synteny[i, 4] - 1
+          if (synteny[i, 4] == "1")
+            synteny[i, 14] <- (2.5 + 11.25833)*35.43307 - (13 * 35.43307 - (1*35.43307 + synteny[i, 6] * chr_width_total_3 / karyotype_total_3)) * sin(pi*(1/3)) + 4
+          else
+            synteny[i, 14] <- (2.5 + 11.25833)*35.43307 - (13 * 35.43307 - (1*35.43307 + synteny[i, 6] * chr_width_total_3 / karyotype_total_3 + sum(karyotype[(table(karyotype$species)[1] + table(karyotype$species)[2] + 1):(table(karyotype$species)[1] + table(karyotype$species)[2] + j),3]) * chr_width_total_3 / karyotype_total_3 + j*0.04*35.43307)) * sin(pi*(1/3)) + 4
+        }
+      }
+      names(synteny)[14] <- "y3"
+
+      for (i in 1 : nrow(synteny)) {
+        if (synteny[i, 8] == 1){
+          j = synteny[i, 4] - 1
+          if (synteny[i,4] == "1")
+            synteny[i, 15] <- (1*35.43307 + synteny[i, 5] * chr_width_total_2 / karyotype_total_2) * cos(pi*(1/3)) + 2 * 35.43307 + 8 * cos(pi*(1/6))
+          else
+            synteny[i, 15] <- (1*35.43307 + synteny[i, 5] * chr_width_total_2 / karyotype_total_2 + sum(karyotype[(table(karyotype$species)[1] + 1):(table(karyotype$species)[1] + j),3]) * chr_width_total_2 / karyotype_total_2 + j*0.04*35.43307) * cos(pi*(1/3)) + 2 * 35.43307 + 8 * cos(pi*(1/6))
+        } else if (synteny[i, 8] == 2){
+          j = synteny[i, 4] - 1
+          if (synteny[i, 4] == "1")
+            synteny[i, 15] <- 15 * 35.43307 - (13 * 35.43307 - (1*35.43307 + synteny[i, 5] * chr_width_total_3 / karyotype_total_3)) * cos(pi*(1/3)) - 8 * cos(pi*(1/6))
+          else
+            synteny[i, 15] <- 15 * 35.43307 - (13 * 35.43307 - (1*35.43307 + synteny[i, 5] * chr_width_total_3 / karyotype_total_3 + sum(karyotype[(table(karyotype$species)[1] + table(karyotype$species)[2] + 1):(table(karyotype$species)[1] + table(karyotype$species)[2] + j),3]) * chr_width_total_3 / karyotype_total_3 + j*0.04*35.43307)) * cos(pi*(1/3)) - 8 * cos(pi*(1/6))
+        } else if (synteny[i, 8] == 3){
+          j = synteny[i, 1] - 1
+          if (synteny[i, 1] == "1")
+            synteny[i, 15] <- (1*35.43307 + synteny[i, 3] * chr_width_total_2 / karyotype_total_2) * cos(pi*(1/3)) + 2 * 35.43307 + 8 * cos(pi*(1/6))
+          else
+            synteny[i, 15] <- (1*35.43307 + synteny[i, 3] * chr_width_total_2 / karyotype_total_2 + sum(karyotype[(table(karyotype$species)[1] + 1):(table(karyotype$species)[1] + j),3]) * chr_width_total_2 / karyotype_total_2 + j*0.04*35.43307) * cos(pi*(1/3)) + 2 * 35.43307 + 8 * cos(pi*(1/6))
+        }
+      }
+      names(synteny)[15] <- "x4"
+
+      for (i in 1 : nrow(synteny)) {
+        if (synteny[i, 8] == 1){
+          j = synteny[i, 4] - 1
+          if (synteny[i, 4] == "1")
+            synteny[i, 16] <- (2.5 + 11.25833)*35.43307 - (1*35.43307 + synteny[i, 5] * chr_width_total_2 / karyotype_total_2) * sin(pi*(1/3)) + 4
+          else
+            synteny[i, 16] <- (2.5 + 11.25833)*35.43307 - (1*35.43307 + synteny[i, 5] * chr_width_total_2 / karyotype_total_2 + sum(karyotype[(table(karyotype$species)[1] + 1):(table(karyotype$species)[1] + j),3]) * chr_width_total_2 / karyotype_total_2 + j*0.04*35.43307) * sin(pi*(1/3)) + 4
+        } else if (synteny[i, 8] == 2){
+          j = synteny[i, 4] - 1
+          if (synteny[i, 4] == "1")
+            synteny[i, 16] <- (2.5 + 11.25833)*35.43307 - (13 * 35.43307 - (1*35.43307 + synteny[i, 5] * chr_width_total_3 / karyotype_total_3)) * sin(pi*(1/3)) + 4
+          else
+            synteny[i, 16] <- (2.5 + 11.25833)*35.43307 - (13 * 35.43307 - (1*35.43307 + synteny[i, 5] * chr_width_total_3 / karyotype_total_3 + sum(karyotype[(table(karyotype$species)[1] + table(karyotype$species)[2] + 1):(table(karyotype$species)[1] + table(karyotype$species)[2] + j),3]) * chr_width_total_3 / karyotype_total_3 + j*0.04*35.43307)) * sin(pi*(1/3)) + 4
+        } else if (synteny[i, 8] == 3){
+          j = synteny[i, 1] - 1
+          if (synteny[i, 1] == "1")
+            synteny[i, 16] <- (2.5 + 11.25833)*35.43307 - (1*35.43307 + synteny[i, 3] * chr_width_total_2 / karyotype_total_2) * sin(pi*(1/3)) + 4
+          else
+            synteny[i, 16] <- (2.5 + 11.25833)*35.43307 - (1*35.43307 + synteny[i, 3] * chr_width_total_2 / karyotype_total_2 + sum(karyotype[(table(karyotype$species)[1] + 1):(table(karyotype$species)[1] + j),3]) * chr_width_total_2 / karyotype_total_2 + j*0.04*35.43307) * sin(pi*(1/3)) + 4
+        }
+      }
+      names(synteny)[16] <- "y4"
+
+      for (i in 1 : nrow(synteny)) {
+        if (synteny[i, 8] == 1){
+          synteny[i, 17] <- (synteny[i, 9] + 11 * 35.43307) / 2 - 30
+          synteny[i, 18] <- (2.5 + 11.25833)*35.43307 - (synteny[i, 17] - 2 * 35.43307) * tan(pi*(1/6))
+          synteny[i, 19] <- (synteny[i, 11] + 11 * 35.43307) / 2 - 30
+          synteny[i, 20] <- (2.5 + 11.25833)*35.43307 - (synteny[i, 19] - 2 * 35.43307) * tan(pi*(1/6))
+        } else if (synteny[i, 8] == 2){
+          synteny[i, 17] <- (synteny[i, 9] + 11 * 35.43307) / 2 + 30
+          synteny[i, 18] <- (2.5 + 11.25833)*35.43307 - (15 * 35.43307 - synteny[i, 17]) * tan(pi*(1/6))
+          synteny[i, 19] <- (synteny[i, 11] + 11 * 35.43307) / 2 + 30
+          synteny[i, 20] <- (2.5 + 11.25833)*35.43307 - (15 * 35.43307 - synteny[i, 19]) * tan(pi*(1/6))
+        } else if (synteny[i, 8] == 3){
+          synteny[i, 17] <- 8.5 * 35.43307
+          synteny[i, 18] <- (synteny[i, 10] + (2.5 + 11.25833 / 2)*35.43307 ) / 2 - 30
+          synteny[i, 19] <- 8.5 * 35.43307
+          synteny[i, 20] <- (synteny[i, 10] + (2.5 + 11.25833 / 2)*35.43307 ) / 2 - 30
+        }
+      }
+      names(synteny)[17] <- "x5"
+      names(synteny)[18] <- "y5"
+      names(synteny)[19] <- "x6"
+      names(synteny)[20] <- "y6"
+
+      for (i in 1 : nrow(synteny)) {
+        if (synteny[i, 8] == 1){
+          synteny[i, 21] <- paste(paste("<path d=\"M", synteny[i, 15], synteny[i, 16], "Q", synteny[i, 17], synteny[i, 18], synteny[i, 9], synteny[i, 10], "L", synteny[i, 11], synteny[i, 12], "Q", synteny[i, 19], synteny[i, 20], synteny[i, 13], synteny[i, 14], "Z\""), paste(" stroke=\"#", synteny[i, 7], "\" fill=\"#", synteny[i, 7], "\" style=\"stroke-width: 0.1px;\"/>", sep = ""), sep = "")
+        } else if (synteny[i, 8] == 2){
+          synteny[i, 21] <- paste(paste("<path d=\"M", synteny[i, 15], synteny[i, 16], "Q", synteny[i, 17], synteny[i, 18], synteny[i, 9], synteny[i, 10], "L", synteny[i, 11], synteny[i, 12], "Q", synteny[i, 19], synteny[i, 20], synteny[i, 13], synteny[i, 14], "Z\""), paste(" stroke=\"#", synteny[i, 7], "\" fill=\"#", synteny[i, 7], "\" style=\"stroke-width: 0.1px;\"/>", sep = ""), sep = "")
+        } else if (synteny[i, 8] == 3){
+          synteny[i, 21] <- paste(paste("<path d=\"M", synteny[i, 9], synteny[i, 10], "Q", synteny[i, 17], synteny[i, 18], synteny[i, 11], synteny[i, 12], "L", synteny[i, 13], synteny[i, 14], "Q", synteny[i, 19], synteny[i, 20], synteny[i, 15], synteny[i, 16], "Z\""), paste(" stroke=\"#", synteny[i, 7], "\" fill=\"#", synteny[i, 7], "\" style=\"stroke-width: 0.1px;\"/>", sep = ""), sep = "")
+        }
+      }
+      names(synteny)[21] <- "path"
+
+
+      species <- data.frame(paste("<text x=\"", 8.5 * 35.43307 - nchar(names(table(karyotype[,5]))[1]) * 2.1, "\" y=\"", (2.5 + 11.25833 + 0.8) * 35.43307, "\" font-size=\"", karyotype[1,6], "\" fill=\"#", karyotype[1,7], "\" >", names(table(karyotype[,5]))[1], "</text>", sep = ""),
+                            paste("<text x=\"", 8.5 * 35.43307 - nchar(names(table(karyotype[,5]))[2]) * 2.1, "\" y=\"", (2.5 + 11.25833 - 0.4) * 35.43307, "\" font-size=\"", karyotype[table(karyotype$species)[1]+1,6], "\" fill=\"#", karyotype[table(karyotype$species)[1]+1,7], "\" transform=\"rotate(-60, 70.86614 487.4999)\" >", names(table(karyotype[,5]))[2], "</text>", sep = ""),
+                            paste("<text x=\"", 8.5 * 35.43307 - nchar(names(table(karyotype[,5]))[3]) * 2.1, "\" y=\"", (2.5 + 11.25833 - 0.4) * 35.43307, "\" font-size=\"", karyotype[table(karyotype$species)[1]+table(karyotype$species)[2]+1,6], "\" fill=\"#", karyotype[table(karyotype$species)[1]+table(karyotype$species)[2]+1,7], "\" transform=\"rotate(60, 531.496 487.4999)\" >", names(table(karyotype[,5]))[3], "</text>", sep = ""),
+                            stringsAsFactors = FALSE
+      )
+
+      for (i in 1 : table(karyotype$species)[1]){
+        karyotype[i,15] = paste("<text x=\"", (karyotype[i, 8] + karyotype[i, 8] + karyotype[i, 12])/2 - nchar(karyotype[i, 1]) * 2.1, "\" y=\"", karyotype[i, 9] + 0.4 * 35.43307, "\" font-size=\"4\" fill=\"black\" >", karyotype[i, 1], "</text>", sep = "")
+      }
+      for (i in (table(karyotype$species)[1] + 1) : (table(karyotype$species)[1] + table(karyotype$species)[2])){
+        karyotype[i,15] = paste("<text x=\"", (karyotype[i, 8] + karyotype[i, 8] + karyotype[i, 12])/2 - nchar(karyotype[i, 1]) * 2.1, "\" y=\"", karyotype[i, 9] - 0.1 * 35.43307, "\" font-size=\"4\" fill=\"black\" transform=\"rotate(-60, 70.86614 487.4999)\" >", karyotype[i, 1], "</text>", sep = "")
+      }
+      for (i in (table(karyotype$species)[1] + table(karyotype$species)[2] + 1) : (table(karyotype$species)[1] + table(karyotype$species)[2] + table(karyotype$species)[3])){
+        karyotype[i,15] = paste("<text x=\"", (karyotype[i, 8] + karyotype[i, 8] + karyotype[i, 12])/2 - nchar(karyotype[i, 1]) * 2.1, "\" y=\"", karyotype[i, 9] - 0.1 * 35.43307, "\" font-size=\"4\" fill=\"black\" transform=\"rotate(60, 531.496 487.4999)\" >", karyotype[i, 1], "</text>", sep = "")
+      }
+      names(karyotype)[15] <- "text"
+
+      gradient1 <- data.frame(paste("<defs>"),
+                              paste("<linearGradient id=\"gradient1\" x1=\"0%\" y1=\"0%\" x2=\"0%\" y2=\"100%\">"),
+                              paste("<stop offset=\"0%\" style=\"stop-color:#", karyotype[table(karyotype$species)[1]+1,7], ";", sep = ""),
+                              paste("stop-opacity:1\"/>"),
+                              paste("<stop offset=\"100%\" style=\"stop-color:#", karyotype[1,7], ";", sep = ""),
+                              paste("stop-opacity:1\"/>"),
+                              paste("</linearGradient>"),
+                              paste("</defs>"),
+                              stringsAsFactors = FALSE
+      )
+
+      gradient2 <- data.frame(paste("<defs>"),
+                              paste("<linearGradient id=\"gradient2\" x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"0%\">"),
+                              paste("<stop offset=\"0%\" style=\"stop-color:#", karyotype[1,7], ";", sep = ""),
+                              paste("stop-opacity:1\"/>"),
+                              paste("<stop offset=\"100%\" style=\"stop-color:#", karyotype[table(karyotype$species)[1]+table(karyotype$species)[2]+1,7], ";", sep = ""),
+                              paste("stop-opacity:1\"/>"),
+                              paste("</linearGradient>"),
+                              paste("</defs>"),
+                              stringsAsFactors = FALSE
+      )
+
+      gradient3 <- data.frame(paste("<defs>"),
+                              paste("<linearGradient id=\"gradient3\" x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"0%\">"),
+                              paste("<stop offset=\"0%\" style=\"stop-color:#", karyotype[table(karyotype$species)[1]+1,7], ";", sep = ""),
+                              paste("stop-opacity:1\"/>"),
+                              paste("<stop offset=\"100%\" style=\"stop-color:#", karyotype[table(karyotype$species)[1]+table(karyotype$species)[2]+1,7], ";", sep = ""),
+                              paste("stop-opacity:1\"/>"),
+                              paste("</linearGradient>"),
+                              paste("</defs>"),
+                              stringsAsFactors = FALSE
+      )
+
+      for (i in 1 : nrow(synteny)) {
+        if (synteny[i, 8] == 1 & synteny[i, 7] == "gradient"){
+          synteny[i, 21] <- paste(paste("<path d=\"M", synteny[i, 15], synteny[i, 16], "Q", synteny[i, 17], synteny[i, 18], synteny[i, 9], synteny[i, 10], "L", synteny[i, 11], synteny[i, 12], "Q", synteny[i, 19], synteny[i, 20], synteny[i, 13], synteny[i, 14], "Z\""), " style=\"stroke-width: 1px;stroke:url(#gradient1);fill:url(#gradient1)\"/>", sep = "")
+        } else if (synteny[i, 8] == 2 & synteny[i, 7] == "gradient"){
+          synteny[i, 21] <- paste(paste("<path d=\"M", synteny[i, 15], synteny[i, 16], "Q", synteny[i, 17], synteny[i, 18], synteny[i, 9], synteny[i, 10], "L", synteny[i, 11], synteny[i, 12], "Q", synteny[i, 19], synteny[i, 20], synteny[i, 13], synteny[i, 14], "Z\""), " style=\"stroke-width: 1px;stroke:url(#gradient2);fill:url(#gradient2)\"/>", sep = "")
+        } else if (synteny[i, 8] == 3 & synteny[i, 7] == "gradient"){
+          synteny[i, 21] <- paste(paste("<path d=\"M", synteny[i, 9], synteny[i, 10], "Q", synteny[i, 17], synteny[i, 18], synteny[i, 11], synteny[i, 12], "L", synteny[i, 13], synteny[i, 14], "Q", synteny[i, 19], synteny[i, 20], synteny[i, 15], synteny[i, 16], "Z\""), " style=\"stroke-width: 1px;stroke:url(#gradient3);fill:url(#gradient3)\"/>", sep = "")
+        }
+      }
+    }
+  } else {
+    mpx<-3.543307 #conversion ratio
   chr_width <- width / (2.6*nrow(karyotype)) * mpx  #width(mm)
 
   karyotype$x9 <- karyotype$x1 <- karyotype$x8 <- karyotype$x4 <- karyotype$x5 <-
@@ -337,11 +813,10 @@ ideogram <- function(karyotype, overlaid = NULL, label = NULL, colorset1 = c("#4
                               "\" y=\"", min(mydata2_legend$y1) + 8 * mpx - 3,
                               "\" font-size=\"12\" font-family=\"Arial\" fill=\"black\" >High</text>", sep = "")
       )
-
     }
+   }
   }
-
-
+                               
   #write the head
   first_line <- c("<?xml version=\"1.0\" standalone=\"no\"?>",
                   "<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\"",
@@ -352,8 +827,55 @@ ideogram <- function(karyotype, overlaid = NULL, label = NULL, colorset1 = c("#4
 
 
   cat(first_line, file = output)
+                               
+  if (!is.null(synteny)){
+    if (length(table(karyotype$species)) == 2){
+      cat(species[1, 1], file = output, append = TRUE)
+      cat(species[1, 2], file = output, append = TRUE)
+      cat(karyotype$text, file = output, append = TRUE)
+      cat(synteny$path, file = output, append = TRUE)
 
-  cat(mydata$rect, file = output, append = TRUE)
+      cat(karyotype$rect_outer, file = output, append = TRUE)
+      cat(karyotype$rect_inner, file = output, append = TRUE)
+    } else if (length(table(karyotype$species)) == 3) {
+      cat(gradient1[1, 1], file = output, append = TRUE)
+      cat(gradient1[1, 2], file = output, append = TRUE)
+      cat(gradient1[1, 3], file = output, append = TRUE)
+      cat(gradient1[1, 4], file = output, append = TRUE)
+      cat(gradient1[1, 5], file = output, append = TRUE)
+      cat(gradient1[1, 6], file = output, append = TRUE)
+      cat(gradient1[1, 7], file = output, append = TRUE)
+      cat(gradient1[1, 8], file = output, append = TRUE)
+
+      cat(gradient2[1, 1], file = output, append = TRUE)
+      cat(gradient2[1, 2], file = output, append = TRUE)
+      cat(gradient2[1, 3], file = output, append = TRUE)
+      cat(gradient2[1, 4], file = output, append = TRUE)
+      cat(gradient2[1, 5], file = output, append = TRUE)
+      cat(gradient2[1, 6], file = output, append = TRUE)
+      cat(gradient2[1, 7], file = output, append = TRUE)
+      cat(gradient2[1, 8], file = output, append = TRUE)
+
+      cat(gradient3[1, 1], file = output, append = TRUE)
+      cat(gradient3[1, 2], file = output, append = TRUE)
+      cat(gradient3[1, 3], file = output, append = TRUE)
+      cat(gradient3[1, 4], file = output, append = TRUE)
+      cat(gradient3[1, 5], file = output, append = TRUE)
+      cat(gradient3[1, 6], file = output, append = TRUE)
+      cat(gradient3[1, 7], file = output, append = TRUE)
+      cat(gradient3[1, 8], file = output, append = TRUE)
+
+      cat(species[1, 1], file = output, append = TRUE)
+      cat(species[1, 2], file = output, append = TRUE)
+      cat(species[1, 3], file = output, append = TRUE)
+      cat(karyotype$text, file = output, append = TRUE)
+      cat(synteny$path, file = output, append = TRUE)
+
+      cat(karyotype$rect_outer, file = output, append = TRUE)
+      cat(karyotype$rect_inner, file = output, append = TRUE)
+    }
+  } else {
+    cat(mydata$rect, file = output, append = TRUE)
 
   #write the idiograms
   cat(karyotype$hat, file = output, append = TRUE)
@@ -393,11 +915,8 @@ ideogram <- function(karyotype, overlaid = NULL, label = NULL, colorset1 = c("#4
       cat(legend_text2, file = output, append = TRUE)
       cat(mydata2_legend$legend, file = output, append = TRUE)
     }
-
+   }
   }
-
-
   ##write the tail
   cat("</svg>", file = output, append = TRUE)
-
 }
