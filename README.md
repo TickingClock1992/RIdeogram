@@ -4,6 +4,8 @@
 
 ![image](https://github.com/TickingClock1992/RIdeogram/blob/master/vignettes/figures/example4.png)
 
+![image](https://github.com/TickingClock1992/RIdeogram/blob/master/vignettes/figures/example13.png)
+
 # Installation
 
 To install package from Github, you need to install the `devtools` package first<br>
