@@ -4,7 +4,7 @@
 \alias{ideogram}
 \title{ideogram}
 \usage{
-ideogram(karyotype, overlaid = NULL, label = NULL,
+ideogram(karyotype, overlaid = NULL, label = NULL, synteny = NULL,
   colorset1 = c("#4575b4", "#ffffbf", "#d73027"),
   colorset2 = c("#b35806", "#f7f7f7", "#542788"), width = 170,
   Lx = 160, Ly = 35, output = "chromosome.svg")
@@ -15,6 +15,8 @@ ideogram(karyotype, overlaid = NULL, label = NULL,
 \item{overlaid}{overlaid data}
 
 \item{label}{track label data}
+
+\item{synteny}{synteny data}
 
 \item{colorset1}{overlaid heatmap-1 color}
 
@@ -56,5 +58,5 @@ convertSVG("chromosome.svg", device = "png")
 
 }
 \author{
-Zhaodong Hao, Dekang Lv, Ying Ge, Jisen Shi, Guangchuang Yu, Jinhui Chen
+Zhaodong Hao, Dekang Lv, Ying Ge, Jisen Shi, Dolf Weijers, Guangchuang Yu, Jinhui Chen
 }
