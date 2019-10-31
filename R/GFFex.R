@@ -26,15 +26,15 @@ GFFex = function(input, karyotype, feature = "gene", window = 1000000){
                           header = T,
                           stringsAsFactors = F
                           )
-  gff <- subset(gff, V1 %in% karyotype$Chr & V3 == feature)
+  gff <- subset(gff, gff$V1 %in% karyotype$Chr & gff$V3 == feature)
 
   list_chr <- vector("list", length(names(table(gff$V1))))
   names(list_chr) <- names(table(gff$V1))
   for (i in 1:(length(list_chr))){
-    list_chr[[i]] <- as.data.frame(table(cut(subset(gff, V1 == names(list_chr[i]))$V4,
-                                           breaks = c(seq(0, subset(karyotype, Chr == names(list_chr[i]))[1,3], window),
-                                                      subset(karyotype, Chr == names(list_chr[i]))[1,3]))))
-    list_chr[[i]] <- tidyr::separate(list_chr[[i]], Var1, into = c("Start","End"), sep = ",")
+    list_chr[[i]] <- as.data.frame(table(cut(subset(gff, gff$V1 == names(list_chr[i]))$V4,
+                                           breaks = c(seq(0, subset(karyotype, karyotype$Chr == names(list_chr[i]))[1,3], window),
+                                                      subset(karyotype, karyotype$Chr == names(list_chr[i]))[1,3]))))
+    list_chr[[i]] <- tidyr::separate(list_chr[[i]], 1, into = c("Start","End"), sep = ",")
     list_chr[[i]]$Start <- gsub('\\(', '', list_chr[[i]]$Start)
     list_chr[[i]]$End <- gsub('\\]', '', list_chr[[i]]$End)
     list_chr[[i]]$Start <- as.numeric(list_chr[[i]]$Start)
