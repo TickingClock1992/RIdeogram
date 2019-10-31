@@ -8,6 +8,7 @@
 ##' @param window window size
 ##' @return dataframe
 ##' @importFrom tidyr separate
+##' @importFrom utils read.table
 ##' @export
 ##' @rdname GFFex
 ##' @author Zhaodong Hao, Dekang Lv, Ying Ge, Jisen Shi, Dolf Weijers, Guangchuang Yu, Jinhui Chen
