@@ -24,11 +24,11 @@ RIdeogram is a R package to draw SVG (Scalable Vector Graphics) graphics to visu
 
 If you use this package in a published paper, please cite this paper:
 
-Zhaodong Hao, Dekang Lv, Ying Ge, Jisen Shi, Dolf Weijers, Guangchuang Yu, and Jinhui Chen (2018). RIdeogram: Drawing SVG graphics to visualize and map genome-wide data in idiograms. R package version 0.1.0.
+Zhaodong Hao, Dekang Lv, Ying Ge, Jisen Shi, Dolf Weijers, Guangchuang Yu, and Jinhui Chen (2019). RIdeogram: Drawing SVG graphics to visualize and map genome-wide data in idiograms. R package version 0.2.0.
 
 ## Usage and Examples
 
-This is a simple package with only two functions `ideogram` and `convertSVG`.
+This is a simple package with only three functions `ideogram`, `convertSVG` and `GFFex`.
 
 First, you need to load the package after you installed it.
 
@@ -74,7 +74,14 @@ Random_RNAs_500 <- read.table("data_2.txt", sep = "\t", header = T, stringsAsFac
 
 The "karyotype.txt" file contains karyotype information; the "data_1.txt" file contains heatmap data; the "data_2.txt" contains track label data.
 
-These three files are all you need, now you can visualize these information using the `ideogram` function.
+In addition, we also provide a simple function `GFFex` for the heatmap information (like gene density) extraction from a GFF file. First, you need to download the GFF file of one species genome, for example, human genome annotation file from GENCODE (ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_32/gencode.v32.annotation.gff3.gz). Then, you need to prepare the karyotype file with the format same as the one mentioned above. The only thing you need to notice is that the chromosome ID at the first column in the karyotype file must be the same as that in the gff file (like chr1, chr2,...). Next, you can run the following code:
+
+```r
+gene_density <- GFFex(input = "gencode.v32.annotation.gff3.gz", karyotype = "human_karyotype.txt", feature = "gene", window = 1000000)
+```
+You can use the argument "feature" (default value is "gene") to select the feature you want to extract from the GFF file and the argument "window" (default value is "1000000") to set the window size.
+
+Now, you can visualize these information using the `ideogram` function.
 
 Basic usage
 
@@ -201,7 +208,7 @@ svg2jpg("chromosome.svg")
 svg2png("chromosome.svg")
 ```
 
-New features: Now, we can use the ideogram function to visualize the genome synteny between two or three genomes.
+New features: Now, we can use the `ideogram` function to visualize the genome synteny between two or three genomes.
 
 For dual genome comparison, load the example data first,
 ```{r}
@@ -210,7 +217,7 @@ data(synteny_dual_comparison, package="RIdeogram")
 ```
 
 If you want to import your own data, using "read.table" function as mentioned above. One thing you need to notice is that the format of karyotype for genome synteny visualization is a little bit different:
-First three columns are the same, the fourth is the color you want to fill the idiograms, the fifth is the name of species, the rest two columns are the size and color of species name. This karyotype file contains information of two genomes with species A (Grape) prior to species B (Populus).
+First three columns are the same, the fourth is the color you want to fill the idiograms, the fifth is the name of species, the rest two columns are the size and color of species name. This karyotype file contains information of two genomes (species A: Grape and species B: Populus) with species A being sorted to the front.
 And, for dual genome synteny file: the first three columns are position information in species A (Grape) and the next three columns are position information in species B (Populus) of corresponding synteny blocks, the last column is the color of the bezier curves which link corresponding synteny blocks. Please sort the colourful lines to the last as possiable as you can.
 
 Then, run the code as folloing
@@ -228,7 +235,7 @@ data(karyotype_ternary_comparison, package="RIdeogram")
 data(synteny_ternary_comparison, package="RIdeogram")
 ```
 
-The format of karyotype for ternary genome synteny visualization is similar to that of dual genome syteny visualization, just contains one more species karyotype information. However, the synteny file is different from that for dual genome syteny visualization. Due to this synteny file contains three comparisons, i.e., species A_vs_B, species A_vs_C and species B_vs_C, we add one additional column with the number "1" being representative of the species A_vs_B, "2" being representative of the species A_vs_C and "3" being representative of the species B_vs_C.
+The format of karyotype file for ternary genome synteny visualization is similar to that of dual genome syteny visualization, containing one more species karyotype information and being sorted in the order of species A (Amborella), B (Grape) and C (Liriodendron). However, the synteny file is different from that of dual genome syteny visualization. Due to this synteny file contains three comparisons, i.e., species A_vs_B, species A_vs_C and species B_vs_C, we add one additional column with the number "1" being representative of the species A_vs_B, "2" being representative of the species A_vs_C and "3" being representative of the species B_vs_C. Also, please sort the colourful lines to the last as possiable as you can.
 
 Then, run the code as following
 
