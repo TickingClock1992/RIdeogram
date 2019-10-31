@@ -40,7 +40,7 @@ GFFex = function(input, karyotype, feature = "gene", window = 1000000){
     list_chr[[i]]$Start <- as.numeric(list_chr[[i]]$Start)
     list_chr[[i]]$End <- as.numeric(list_chr[[i]]$End)
     list_chr[[i]]$Start <- list_chr[[i]]$Start + 1
-    list_chr[[i]][nrow(list_chr[[i]]),2] <- subset(karyotype, Chr == names(list_chr[i]))[1,3]
+    list_chr[[i]][nrow(list_chr[[i]]),2] <- subset(karyotype, karyotype$Chr == names(list_chr[i]))[1,3]
     list_chr[[i]]$Chr <- names(list_chr[i])
     list_chr[[i]] <- cbind(list_chr[[i]][,4], list_chr[[i]][,1:3])
     colnames(list_chr[[i]]) <- c("Chr", "Start", "End", "Value")
