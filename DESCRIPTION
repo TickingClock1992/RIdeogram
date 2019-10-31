@@ -22,7 +22,8 @@ Imports:
   rsvg,
   scales,
   tools,
-  tidyr
+  tidyr,
+  utils
 RoxygenNote: 6.1.1
 Suggests:
     knitr,
