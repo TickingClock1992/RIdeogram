@@ -6,9 +6,9 @@
 ##' @param karyotype karyotype file
 ##' @param feature feature name
 ##' @param window window size
-##' @return
+##' @return dataframe
 ##' @importFrom tidyr separate
-##' @export dataframe
+##' @export
 ##' @rdname GFFex
 ##' @author Zhaodong Hao, Dekang Lv, Ying Ge, Jisen Shi, Dolf Weijers, Guangchuang Yu, Jinhui Chen
 
