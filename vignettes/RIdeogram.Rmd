@@ -64,7 +64,7 @@ head(Random_RNAs_500)
 
 The 'mydata_interval' file contains the label information and has six columns. The first column is the label type, the second column is the shape of label with three available options of box, triangle and circle, the third column is Chromosome ID, the fourth and fifth columns are the start and end positions of corresponding labels in the chromosomes and the sixth column is the color of the label.
 
-Or, you can also load your own data by using the function "read.table", such as
+Or, you can also load your own data by using the function `read.table`, such as
 
 ```r
 human_karyotype <- read.table("karyotype.txt", sep = "\t", header = T, stringsAsFactors = F)
@@ -74,7 +74,7 @@ Random_RNAs_500 <- read.table("data_2.txt", sep = "\t", header = T, stringsAsFac
 
 The "karyotype.txt" file contains karyotype information; the "data_1.txt" file contains heatmap data; the "data_2.txt" contains track label data.
 
-In addition, we also provide a simple function `GFFex` for the heatmap information (like gene density) extraction from a GFF file. First, you need to download the GFF file of one species genome, for example, human genome annotation file from GENCODE (ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_32/gencode.v32.annotation.gff3.gz). Then, you need to prepare the karyotype file with the format same as the one mentioned above. The only thing you need to notice is that the chromosome ID at the first column in the karyotype file must be the same as that in the gff file (like chr1, chr2,...). Next, you can run the following code:
+In addition, we also provide a simple function `GFFex` for the heatmap information (like gene density) extraction from a GFF file. First, you need to download the GFF file of one species genome, for example, human genome annotation file from GENCODE (ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_32/gencode.v32.annotation.gff3.gz). Then, you need to prepare the karyotype file with the format same as the one mentioned above. The only thing you need to notice is that the chromosome ID at the first column in the karyotype file must be the same as that in the gff file (in this case, like chr1, chr2,...). Next, you can run the following code:
 
 ```r
 gene_density <- GFFex(input = "gencode.v32.annotation.gff3.gz", karyotype = "human_karyotype.txt", feature = "gene", window = 1000000)
@@ -216,7 +216,7 @@ data(karyotype_dual_comparison, package="RIdeogram")
 data(synteny_dual_comparison, package="RIdeogram")
 ```
 
-If you want to import your own data, using "read.table" function as mentioned above. One thing you need to notice is that the format of karyotype for genome synteny visualization is a little bit different:
+If you want to import your own data, using `read.table` function as mentioned above. One thing you need to notice is that the format of karyotype for genome synteny visualization is a little bit different:
 First three columns are the same, the fourth is the color you want to fill the idiograms, the fifth is the name of species, the rest two columns are the size and color of species name. This karyotype file contains information of two genomes (species A: Grape and species B: Populus) with species A being sorted to the front.
 And, for dual genome synteny file: the first three columns are position information in species A (Grape) and the next three columns are position information in species B (Populus) of corresponding synteny blocks, the last column is the color of the bezier curves which link corresponding synteny blocks. Please sort the colourful lines to the last as possiable as you can.
 
@@ -235,7 +235,7 @@ data(karyotype_ternary_comparison, package="RIdeogram")
 data(synteny_ternary_comparison, package="RIdeogram")
 ```
 
-The format of karyotype file for ternary genome synteny visualization is similar to that of dual genome syteny visualization, containing one more species karyotype information and being sorted in the order of species A (Amborella), B (Grape) and C (Liriodendron). However, the synteny file is different from that of dual genome syteny visualization. Due to this synteny file contains three comparisons, i.e., species A_vs_B, species A_vs_C and species B_vs_C, we add one additional column with the number "1" being representative of the species A_vs_B, "2" being representative of the species A_vs_C and "3" being representative of the species B_vs_C. Also, please sort the colourful lines to the last as possiable as you can.
+The format of karyotype file for ternary genome synteny visualization is similar to that of dual genome syteny visualization, containing one more species karyotype information and being sorted in the order of species A (Amborella), B (Grape) and C (Liriodendron). However, the synteny file is different from that of dual genome syteny visualization. Because this synteny file contains three comparisons, i.e., species A_vs_B, species A_vs_C and species B_vs_C, we add one additional column with the number "1" being representative of the species A_vs_B, "2" being representative of the species A_vs_C and "3" being representative of the species B_vs_C. Also, please sort the colourful lines to the last as possiable as you can.
 
 Then, run the code as following
 
@@ -246,10 +246,11 @@ convertSVG("chromosome.svg", device = "png")
 
 <img src="figures/example12.png" width="100%" />
 
-In addition, if you want use gradient color for the bezier curves which you want to highlighted (red lines in the above picture), just replace the red color "e41a1c" with "gradient" in the seventh column, and then run the following code
+In addition, if you want use gradient color for the bezier curves which you want to highlighted (red lines in the above picture), just replace the red color "e41a1c" with "gradient" in the seventh column (as like in the example data of "synteny_ternary_comparison_graident"). Here, we first load the example data and visualize the ternary genome syteny using `ideogram` function. And since R graphics does not support the SVG element of gradient fill, we use the `rsvg_pdf` function from rsvg package to convert this svg file into a pdf file directly. So, maybe you need to install the rsvg package if you want to show the gradient fill or you can also open the svg file with Inkscape and then save as a pdf file.
 
 ```r
-ideogram(karyotype = karyotype_ternary_comparison, synteny = synteny_ternary_comparison)
+data(synteny_ternary_comparison_graident, package="RIdeogram")
+ideogram(karyotype = karyotype_ternary_comparison, synteny = synteny_ternary_comparison_graident)
 library("rsvg")
 rsvg_pdf("chromosome.svg", "chromosome.pdf")
 ```
