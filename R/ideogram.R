@@ -823,9 +823,9 @@ ideogram <- function(karyotype, overlaid = NULL, label = NULL, label_type = NULL
           mydata_interval$y <- apply(data.frame(mydata_interval$ChrEnd,mydata_interval$Start,mydata_interval$End),1,function(x)(((25+maxchrlen*(1-(x[1]-x[2])/max(karyotype$End))) * mpx + (25+maxchrlen*(1-(x[1]-x[3])/max(karyotype$End))) * mpx)/2))
           mydata_interval$point <- paste(mydata_interval$x, mydata_interval$y, sep = ",")
           for (i in 1:nrow(karyotype)){
-            karyotype[i, 29] <- subset(mydata_interval, Chr == karyotype[i, 1])$point[1]
-            for (j in 2:nrow(subset(mydata_interval, Chr == karyotype[i, 1]))){
-              tmp <- subset(mydata_interval, Chr == karyotype[i, 1])$point[j]
+            karyotype[i, 29] <- subset(mydata_interval, mydata_interval$Chr == karyotype[i, 1])$point[1]
+            for (j in 2:nrow(subset(mydata_interval, mydata_interval$Chr == karyotype[i, 1]))){
+              tmp <- subset(mydata_interval, mydata_interval$Chr == karyotype[i, 1])$point[j]
               karyotype[i, 29] <- paste(karyotype[i, 29], tmp, sep = " ")
             }
             karyotype[i, 29] <- paste("<polyline points=\"",
@@ -839,9 +839,9 @@ ideogram <- function(karyotype, overlaid = NULL, label = NULL, label_type = NULL
           mydata_interval$y1 <- apply(data.frame(mydata_interval$ChrEnd,mydata_interval$Start,mydata_interval$End),1,function(x)(((25+maxchrlen*(1-(x[1]-x[2])/max(karyotype$End))) * mpx + (25+maxchrlen*(1-(x[1]-x[3])/max(karyotype$End))) * mpx)/2))
           mydata_interval$point1 <- paste(mydata_interval$x1, mydata_interval$y1, sep = ",")
           for (i in 1:nrow(karyotype)){
-            karyotype[i, 29] <- subset(mydata_interval, Chr == karyotype[i, 1])$point1[1]
-            for (j in 2:nrow(subset(mydata_interval, Chr == karyotype[i, 1]))){
-              tmp <- subset(mydata_interval, Chr == karyotype[i, 1])$point1[j]
+            karyotype[i, 29] <- subset(mydata_interval, mydata_interval$Chr == karyotype[i, 1])$point1[1]
+            for (j in 2:nrow(subset(mydata_interval, mydata_interval$Chr == karyotype[i, 1]))){
+              tmp <- subset(mydata_interval, mydata_interval$Chr == karyotype[i, 1])$point1[j]
               karyotype[i, 29] <- paste(karyotype[i, 29], tmp, sep = " ")
             }
             karyotype[i, 29] <- paste("<polyline points=\"",
@@ -854,9 +854,9 @@ ideogram <- function(karyotype, overlaid = NULL, label = NULL, label_type = NULL
           mydata_interval$y2 <- mydata_interval$y1
           mydata_interval$point2 <- paste(mydata_interval$x2, mydata_interval$y2, sep = ",")
           for (i in 1:nrow(karyotype)){
-            karyotype[i, 30] <- subset(mydata_interval, Chr == karyotype[i, 1])$point2[1]
-            for (j in 2:nrow(subset(mydata_interval, Chr == karyotype[i, 1]))){
-              tmp <- subset(mydata_interval, Chr == karyotype[i, 1])$point2[j]
+            karyotype[i, 30] <- subset(mydata_interval, mydata_interval$Chr == karyotype[i, 1])$point2[1]
+            for (j in 2:nrow(subset(mydata_interval, mydata_interval$Chr == karyotype[i, 1]))){
+              tmp <- subset(mydata_interval, mydata_interval$Chr == karyotype[i, 1])$point2[j]
               karyotype[i, 30] <- paste(karyotype[i, 30], tmp, sep = " ")
             }
             karyotype[i, 30] <- paste("<polyline points=\"",
@@ -872,9 +872,9 @@ ideogram <- function(karyotype, overlaid = NULL, label = NULL, label_type = NULL
           mydata_interval$y <- apply(data.frame(mydata_interval$ChrEnd,mydata_interval$Start,mydata_interval$End),1,function(x)(((25+maxchrlen*(1-(x[1]-x[2])/max(karyotype$End))) * mpx + (25+maxchrlen*(1-(x[1]-x[3])/max(karyotype$End))) * mpx)/2))
           mydata_interval$point <- paste(mydata_interval$x, mydata_interval$y, sep = ",")
           for (i in 1:nrow(karyotype)){
-            karyotype[i, 29] <- subset(mydata_interval, Chr == karyotype[i, 1])$point[1]
-            for (j in 2:nrow(subset(mydata_interval, Chr == karyotype[i, 1]))){
-              tmp <- subset(mydata_interval, Chr == karyotype[i, 1])$point[j]
+            karyotype[i, 29] <- subset(mydata_interval, mydata_interval$Chr == karyotype[i, 1])$point[1]
+            for (j in 2:nrow(subset(mydata_interval, mydata_interval$Chr == karyotype[i, 1]))){
+              tmp <- subset(mydata_interval, mydata_interval$Chr == karyotype[i, 1])$point[j]
               karyotype[i, 29] <- paste(karyotype[i, 29], tmp, sep = " ")
             }
             karyotype[i, 29] <- paste("<polygon points=\"",
@@ -890,9 +890,9 @@ ideogram <- function(karyotype, overlaid = NULL, label = NULL, label_type = NULL
           mydata_interval$y1 <- apply(data.frame(mydata_interval$ChrEnd,mydata_interval$Start,mydata_interval$End),1,function(x)(((25+maxchrlen*(1-(x[1]-x[2])/max(karyotype$End))) * mpx + (25+maxchrlen*(1-(x[1]-x[3])/max(karyotype$End))) * mpx)/2))
           mydata_interval$point1 <- paste(mydata_interval$x1, mydata_interval$y1, sep = ",")
           for (i in 1:nrow(karyotype)){
-            karyotype[i, 29] <- subset(mydata_interval, Chr == karyotype[i, 1])$point1[1]
-            for (j in 2:nrow(subset(mydata_interval, Chr == karyotype[i, 1]))){
-              tmp <- subset(mydata_interval, Chr == karyotype[i, 1])$point1[j]
+            karyotype[i, 29] <- subset(mydata_interval, mydata_interval$Chr == karyotype[i, 1])$point1[1]
+            for (j in 2:nrow(subset(mydata_interval, mydata_interval$Chr == karyotype[i, 1]))){
+              tmp <- subset(mydata_interval, mydata_interval$Chr == karyotype[i, 1])$point1[j]
               karyotype[i, 29] <- paste(karyotype[i, 29], tmp, sep = " ")
             }
             karyotype[i, 29] <- paste("<polygon points=\"",
@@ -907,9 +907,9 @@ ideogram <- function(karyotype, overlaid = NULL, label = NULL, label_type = NULL
           mydata_interval$y2 <- mydata_interval$y1
           mydata_interval$point2 <- paste(mydata_interval$x2, mydata_interval$y2, sep = ",")
           for (i in 1:nrow(karyotype)){
-            karyotype[i, 30] <- subset(mydata_interval, Chr == karyotype[i, 1])$point2[1]
-            for (j in 2:nrow(subset(mydata_interval, Chr == karyotype[i, 1]))){
-              tmp <- subset(mydata_interval, Chr == karyotype[i, 1])$point2[j]
+            karyotype[i, 30] <- subset(mydata_interval, mydata_interval$Chr == karyotype[i, 1])$point2[1]
+            for (j in 2:nrow(subset(mydata_interval, mydata_interval$Chr == karyotype[i, 1]))){
+              tmp <- subset(mydata_interval, mydata_interval$Chr == karyotype[i, 1])$point2[j]
               karyotype[i, 30] <- paste(karyotype[i, 30], tmp, sep = " ")
             }
             karyotype[i, 30] <- paste("<polygon points=\"",
