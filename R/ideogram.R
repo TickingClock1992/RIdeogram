@@ -5,9 +5,10 @@
 ##' @param karyotype karyotype data
 ##' @param overlaid overlaid data
 ##' @param label track label data
+##' @param label_type track label type, only support four types: marker, heatmap, line and polygon
 ##' @param synteny synteny data
-##' @param colorset1 overlaid heatmap-1 color
-##' @param colorset2 overlaid heatmap-2 color
+##' @param colorset1 overlaid heatmap color
+##' @param colorset2 label heatmap color
 ##' @param width width of plot region
 ##' @param Lx position of legend (x)
 ##' @param Ly position of legend (y)
@@ -38,7 +39,7 @@
 ##'
 ##' @author Zhaodong Hao, Dekang Lv, Ying Ge, Jisen Shi, Dolf Weijers, Guangchuang Yu, Jinhui Chen
 ##'
-ideogram <- function(karyotype, overlaid = NULL, label = NULL, synteny = NULL, colorset1 = c("#4575b4", "#ffffbf", "#d73027"), colorset2 = c("#b35806", "#f7f7f7", "#542788"), width = 170, Lx = 160, Ly = 35, output = "chromosome.svg") {
+ideogram <- function(karyotype, overlaid = NULL, label = NULL, label_type = NULL, synteny = NULL, colorset1 = c("#4575b4", "#ffffbf", "#d73027"), colorset2 = c("#b35806", "#f7f7f7", "#542788"), width = 170, Lx = 160, Ly = 35, output = "chromosome.svg") {
   karyotype <- karyotype
   mydata <- overlaid
   mydata_interval <- label
@@ -632,7 +633,7 @@ ideogram <- function(karyotype, overlaid = NULL, label = NULL, synteny = NULL, c
 
     }
     if (!is.null(mydata_interval)) {
-      if (ncol(mydata_interval) == 6){
+      if (label_type == "marker"){
 
         mydata_interval<-merge(mydata_interval,data.frame(Chr=karyotype$Chr,ChrEnd=karyotype$End,x2=karyotype$x2),by="Chr")
 
@@ -738,7 +739,7 @@ ideogram <- function(karyotype, overlaid = NULL, label = NULL, synteny = NULL, c
                                         mydata2_legend[i,2],"</text>", sep = "")
         }
         names(mydata2_legend)[12] <- "name"
-      } else if (ncol(mydata_interval) == 4) {
+      } else if (label_type == "heatmap") {
         #the positions of chromosome names
         karyotype$text = paste("<text x=\"", (2 * karyotype$x1 + 2.6 * chr_width)/2 - 4 * nchar(karyotype$Chr), "\" y=\"",
                                (150 + 25) * mpx + 15,
@@ -815,6 +816,110 @@ ideogram <- function(karyotype, overlaid = NULL, label = NULL, synteny = NULL, c
                                 "\" font-size=\"12\" font-family=\"Arial\" fill=\"black\" >High</text>", sep = "")
         )
 
+      } else if (label_type == "line"){
+        if (ncol(mydata_interval) == 5){
+          mydata_interval <- merge(mydata_interval, data.frame(Chr = karyotype$Chr, ChrEnd = karyotype$End, x = karyotype$x1), by="Chr")
+          mydata_interval$x <- mydata_interval$x + 1.2 * chr_width + mydata_interval$Value * chr_width / max(mydata_interval$Value)
+          mydata_interval$y <- apply(data.frame(mydata_interval$ChrEnd,mydata_interval$Start,mydata_interval$End),1,function(x)(((25+maxchrlen*(1-(x[1]-x[2])/max(karyotype$End))) * mpx + (25+maxchrlen*(1-(x[1]-x[3])/max(karyotype$End))) * mpx)/2))
+          mydata_interval$point <- paste(mydata_interval$x, mydata_interval$y, sep = ",")
+          for (i in 1:nrow(karyotype)){
+            karyotype[i, 29] <- subset(mydata_interval, Chr == karyotype[i, 1])$point[1]
+            for (j in 2:nrow(subset(mydata_interval, Chr == karyotype[i, 1]))){
+              tmp <- subset(mydata_interval, Chr == karyotype[i, 1])$point[j]
+              karyotype[i, 29] <- paste(karyotype[i, 29], tmp, sep = " ")
+            }
+            karyotype[i, 29] <- paste("<polyline points=\"",
+                                      karyotype[i, 29],
+                                      "\" style=\"fill:none; stroke:#", mydata_interval[1,5], "; stroke-width:1\"/>", sep = "")
+          }
+          colnames(karyotype)[29] <- "line"
+        } else if (ncol(mydata_interval) == 7){
+          mydata_interval <- merge(mydata_interval, data.frame(Chr = karyotype$Chr, ChrEnd = karyotype$End, x = karyotype$x1), by="Chr")
+          mydata_interval$x1 <- mydata_interval$x + 1.2 * chr_width + mydata_interval$Value_1 * chr_width / max(mydata_interval$Value_1)
+          mydata_interval$y1 <- apply(data.frame(mydata_interval$ChrEnd,mydata_interval$Start,mydata_interval$End),1,function(x)(((25+maxchrlen*(1-(x[1]-x[2])/max(karyotype$End))) * mpx + (25+maxchrlen*(1-(x[1]-x[3])/max(karyotype$End))) * mpx)/2))
+          mydata_interval$point1 <- paste(mydata_interval$x1, mydata_interval$y1, sep = ",")
+          for (i in 1:nrow(karyotype)){
+            karyotype[i, 29] <- subset(mydata_interval, Chr == karyotype[i, 1])$point1[1]
+            for (j in 2:nrow(subset(mydata_interval, Chr == karyotype[i, 1]))){
+              tmp <- subset(mydata_interval, Chr == karyotype[i, 1])$point1[j]
+              karyotype[i, 29] <- paste(karyotype[i, 29], tmp, sep = " ")
+            }
+            karyotype[i, 29] <- paste("<polyline points=\"",
+                                      karyotype[i, 29],
+                                      "\" style=\"fill:none; stroke:#", mydata_interval[1,5], "; stroke-width:1\"/>", sep = "")
+          }
+          colnames(karyotype)[29] <- "line1"
+
+          mydata_interval$x2 <- mydata_interval$x + 1.2 * chr_width + mydata_interval$Value_2 * chr_width / max(mydata_interval$Value_2)
+          mydata_interval$y2 <- mydata_interval$y1
+          mydata_interval$point2 <- paste(mydata_interval$x2, mydata_interval$y2, sep = ",")
+          for (i in 1:nrow(karyotype)){
+            karyotype[i, 30] <- subset(mydata_interval, Chr == karyotype[i, 1])$point2[1]
+            for (j in 2:nrow(subset(mydata_interval, Chr == karyotype[i, 1]))){
+              tmp <- subset(mydata_interval, Chr == karyotype[i, 1])$point2[j]
+              karyotype[i, 30] <- paste(karyotype[i, 30], tmp, sep = " ")
+            }
+            karyotype[i, 30] <- paste("<polyline points=\"",
+                                      karyotype[i, 30],
+                                      "\" style=\"fill:none; stroke:#", mydata_interval[1,7], "; stroke-width:1\"/>", sep = "")
+          }
+          colnames(karyotype)[30] <- "line2"
+        }
+      } else if (label_type == "polygon"){
+        if (ncol(mydata_interval) == 5){
+          mydata_interval <- merge(mydata_interval, data.frame(Chr = karyotype$Chr, ChrEnd = karyotype$End, x = karyotype$x1), by="Chr")
+          mydata_interval$x <- mydata_interval$x + 1.2 * chr_width + mydata_interval$Value * chr_width / max(mydata_interval$Value)
+          mydata_interval$y <- apply(data.frame(mydata_interval$ChrEnd,mydata_interval$Start,mydata_interval$End),1,function(x)(((25+maxchrlen*(1-(x[1]-x[2])/max(karyotype$End))) * mpx + (25+maxchrlen*(1-(x[1]-x[3])/max(karyotype$End))) * mpx)/2))
+          mydata_interval$point <- paste(mydata_interval$x, mydata_interval$y, sep = ",")
+          for (i in 1:nrow(karyotype)){
+            karyotype[i, 29] <- subset(mydata_interval, Chr == karyotype[i, 1])$point[1]
+            for (j in 2:nrow(subset(mydata_interval, Chr == karyotype[i, 1]))){
+              tmp <- subset(mydata_interval, Chr == karyotype[i, 1])$point[j]
+              karyotype[i, 29] <- paste(karyotype[i, 29], tmp, sep = " ")
+            }
+            karyotype[i, 29] <- paste("<polygon points=\"",
+                                      paste(karyotype$x1[i] + 1.2 * chr_width, ",", karyotype$y1[i] - chr_width/2, " ", sep = ""),
+                                      karyotype[i, 29],
+                                      paste(" ", karyotype$x1[i] + 1.2 * chr_width, ",", (25 + maxchrlen) * mpx, sep = ""),
+                                      "\" style=\"fill:#", mydata_interval[1,5], "; stroke:#", mydata_interval[1,5], "; stroke-width:0.25\"/>", sep = "")
+          }
+          colnames(karyotype)[29] <- "polygon"
+        } else if (ncol(mydata_interval) == 7){
+          mydata_interval <- merge(mydata_interval, data.frame(Chr = karyotype$Chr, ChrEnd = karyotype$End, x = karyotype$x1), by="Chr")
+          mydata_interval$x1 <- mydata_interval$x + 1.2 * chr_width + mydata_interval$Value_1 * chr_width / max(mydata_interval$Value_1)
+          mydata_interval$y1 <- apply(data.frame(mydata_interval$ChrEnd,mydata_interval$Start,mydata_interval$End),1,function(x)(((25+maxchrlen*(1-(x[1]-x[2])/max(karyotype$End))) * mpx + (25+maxchrlen*(1-(x[1]-x[3])/max(karyotype$End))) * mpx)/2))
+          mydata_interval$point1 <- paste(mydata_interval$x1, mydata_interval$y1, sep = ",")
+          for (i in 1:nrow(karyotype)){
+            karyotype[i, 29] <- subset(mydata_interval, Chr == karyotype[i, 1])$point1[1]
+            for (j in 2:nrow(subset(mydata_interval, Chr == karyotype[i, 1]))){
+              tmp <- subset(mydata_interval, Chr == karyotype[i, 1])$point1[j]
+              karyotype[i, 29] <- paste(karyotype[i, 29], tmp, sep = " ")
+            }
+            karyotype[i, 29] <- paste("<polygon points=\"",
+                                      paste(karyotype$x1[i] + 1.2 * chr_width, ",", karyotype$y1[i] - chr_width/2, " ", sep = ""),
+                                      karyotype[i, 29],
+                                      paste(" ", karyotype$x1[i] + 1.2 * chr_width, ",", (25 + maxchrlen) * mpx, sep = ""),
+                                      "\" style=\"fill:#", mydata_interval[1,5], "; stroke:#", mydata_interval[1,5], "; stroke-width:0.25\"/>", sep = "")
+          }
+          colnames(karyotype)[29] <- "polygon1"
+
+          mydata_interval$x2 <- mydata_interval$x + 1.4 * chr_width + mydata_interval$Value_2 * chr_width / max(mydata_interval$Value_2)
+          mydata_interval$y2 <- mydata_interval$y1
+          mydata_interval$point2 <- paste(mydata_interval$x2, mydata_interval$y2, sep = ",")
+          for (i in 1:nrow(karyotype)){
+            karyotype[i, 30] <- subset(mydata_interval, Chr == karyotype[i, 1])$point2[1]
+            for (j in 2:nrow(subset(mydata_interval, Chr == karyotype[i, 1]))){
+              tmp <- subset(mydata_interval, Chr == karyotype[i, 1])$point2[j]
+              karyotype[i, 30] <- paste(karyotype[i, 30], tmp, sep = " ")
+            }
+            karyotype[i, 30] <- paste("<polygon points=\"",
+                                      paste(karyotype$x1[i] + 1.4 * chr_width, ",", karyotype$y1[i] - chr_width/2, " ", sep = ""),
+                                      karyotype[i, 30],
+                                      paste(" ", karyotype$x1[i] + 1.4 * chr_width, ",", (25 + maxchrlen) * mpx, sep = ""),
+                                      "\" style=\"fill:#", mydata_interval[1,7], "; stroke:#", mydata_interval[1,7], "; stroke-width:0.25\"/>", sep = "")
+          }
+          colnames(karyotype)[30] <- "polygon2"
+        }
       }
     }
   }
@@ -902,22 +1007,35 @@ ideogram <- function(karyotype, overlaid = NULL, label = NULL, synteny = NULL, c
     cat(mydata_interval$rect, file = output, append = TRUE)
 
     if (!is.null(mydata_interval)) {
-      if (!is.null(mydata_interval$interval)){
+      if (label_type == "marker"){
 
         cat(mydata_interval$line, file = output, append = TRUE)
 
         cat(mydata2_legend$shape, file = output, append = TRUE)
         cat(mydata2_legend$name, file = output, append = TRUE)
 
-      } else if (!is.null(mydata_interval$rect)) {
+      } else if (label_type == "heatmap") {
         cat(karyotype$hat2, file = output, append = TRUE)
         cat(karyotype$shoe2, file = output, append = TRUE)
         cat(karyotype$bow2, file = output, append = TRUE)
         cat(karyotype$path2, file = output, append = TRUE)
         cat(legend_text2, file = output, append = TRUE)
         cat(mydata2_legend$legend, file = output, append = TRUE)
+      } else if (label_type == "line") {
+        if (ncol(mydata_interval) == 9){
+          cat(karyotype$line, file = output, append = TRUE)
+        } else if (ncol(mydata_interval) == 15){
+          cat(karyotype$line1, file = output, append = TRUE)
+          cat(karyotype$line2, file = output, append = TRUE)
+        }
+      } else if (label_type == "polygon") {
+        if (ncol(mydata_interval) == 9){
+          cat(karyotype$polygon, file = output, append = TRUE)
+        } else if (ncol(mydata_interval) == 15){
+          cat(karyotype$polygon2, file = output, append = TRUE)
+          cat(karyotype$polygon1, file = output, append = TRUE)
+        }
       }
-
     }
   }
 
