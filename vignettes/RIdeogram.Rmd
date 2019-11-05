@@ -195,11 +195,14 @@ convertSVG("chromosome.svg", device = "png")
 <img src="figures/example10.png" width="100%" />
 
 For one-line label, 
-```
+```{r}
 data(liriodendron_karyotype, package="RIdeogram") #load the karyotype data
 data(Fst_between_CE_and_CW, package="RIdeogram") #load the Fst data for overlaid heatmap
 data(Pi_for_CE, package="RIdeogram") #load the Pi data for one-line label
 head(Pi_for_CE) #this data has a similar format with the heatmap data with additional column of "Color" which indicate the color for the line.
+```
+
+```
 ideogram(karyotype = liriodendron_karyotype, overlaid = Fst_between_CE_and_CW, label = Pi_for_CE, label_type = "line", colorset1 = c("#e5f5f9", "#99d8c9", "#2ca25f"))
 convertSVG("chromosome.svg", device = "png")
 ```
@@ -207,11 +210,14 @@ convertSVG("chromosome.svg", device = "png")
 <img src="figures/example11.png" width="100%" />
 
 For two-line label, 
-```
+```{r}
 data(liriodendron_karyotype, package="RIdeogram") #load the karyotype data
 data(Fst_between_CE_and_CW, package="RIdeogram") #load the Fst data for overlaid heatmap
 data(Pi_for_CE_and_CW, package="RIdeogram") #load the Pi data for two-line label
 head(Pi_for_CE_and_CW) #this data has a similar format with the one for one-line label with additional two columns indicating the second feature you want to show. When you prepare your own data, please keep the exact same column names.
+```
+
+```
 ideogram(karyotype = liriodendron_karyotype, overlaid = Fst_between_CE_and_CW, label = Pi_for_CE_and_CW, label_type = "line", colorset1 = c("#e5f5f9", "#99d8c9", "#2ca25f"))
 convertSVG("chromosome.svg", device = "png")
 ```
