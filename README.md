@@ -4,7 +4,7 @@
 
 ![image](https://github.com/TickingClock1992/RIdeogram/blob/master/vignettes/figures/example4.png)
 
-![image](https://github.com/TickingClock1992/RIdeogram/blob/master/vignettes/figures/example13.png)
+![image](https://github.com/TickingClock1992/RIdeogram/blob/master/vignettes/figures/example14.png)
 
 ![image](https://github.com/TickingClock1992/RIdeogram/blob/master/vignettes/figures/example17.png)
 
