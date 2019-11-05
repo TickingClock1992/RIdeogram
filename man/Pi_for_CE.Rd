@@ -3,7 +3,7 @@
 \alias{Pi_for_CE}
 \title{Pi of one Liriodendron group}
 \description{
-  Pi of the China east group of Liriodendron chinense and being calculated in a 2-Mb sliding window with a
+  Pi values of the China east group of Liriodendron chinense and being calculated in a 2-Mb sliding window with a
 1-Mb step
 }
 \usage{data(Pi_for_CE)}
