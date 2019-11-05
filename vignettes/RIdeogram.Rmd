@@ -86,7 +86,7 @@ Now, you can visualize these information using the `ideogram` function.
 Basic usage
 
 ```r
-ideogram(karyotype, overlaid = NULL, label = NULL, synteny = NULL, colorset1, colorset2, width, Lx, Ly, output = "chromosome.svg")
+ideogram(karyotype, overlaid = NULL, label = NULL, label_type = NULL, synteny = NULL, colorset1, colorset2, width, Lx, Ly, output = "chromosome.svg")
 convertSVG(svg, device, width, height, dpi)
 ```
 
@@ -115,7 +115,7 @@ convertSVG("chromosome.svg", device = "png")
 Alternatively, we can map some genome-wide data with track labels next to the chromosome idiograms.
 
 ```r
-ideogram(karyotype = human_karyotype, label = Random_RNAs_500)
+ideogram(karyotype = human_karyotype, label = Random_RNAs_500, label_type = "marker")
 convertSVG("chromosome.svg", device = "png")
 ```
 
@@ -124,7 +124,7 @@ convertSVG("chromosome.svg", device = "png")
 We can also map the overlaid heatmap and track labels on the chromosome idiograms at the same time.
 
 ```r
-ideogram(karyotype = human_karyotype, overlaid = gene_density, label = Random_RNAs_500)
+ideogram(karyotype = human_karyotype, overlaid = gene_density, label = Random_RNAs_500, label_type = "marker")
 convertSVG("chromosome.svg", device = "png")
 ```
 
@@ -133,7 +133,7 @@ convertSVG("chromosome.svg", device = "png")
 If you want to change the color of heatmap, you can modify the argument 'colorset1' (default set is colorset1 = c("#4575b4", "#ffffbf", "#d73027")). You can use either color names as listed by `colors()` or hexadecimal strings of the form "#rrggbb" or "#rrggbbaa".
 
 ```r
-ideogram(karyotype = human_karyotype, overlaid = gene_density, label = Random_RNAs_500, colorset1 = c("#fc8d59", "#ffffbf", "#91bfdb"))
+ideogram(karyotype = human_karyotype, overlaid = gene_density, label = Random_RNAs_500, label_type = "marker", colorset1 = c("#fc8d59", "#ffffbf", "#91bfdb"))
 convertSVG("chromosome.svg", device = "png")
 ```
 
@@ -145,7 +145,7 @@ To simulate this case, we deleted the last two columns of the 'human_karyotype' 
 
 ```r
 human_karyotype <- human_karyotype[,1:3]
-ideogram(karyotype = human_karyotype, overlaid = gene_density, label = Random_RNAs_500)
+ideogram(karyotype = human_karyotype, overlaid = gene_density, label = Random_RNAs_500, label_type = "marker")
 convertSVG("chromosome.svg", device = "png")
 ```
 
@@ -158,7 +158,7 @@ To simulate this case, we only keep the first ten columns of the 'human_karyotyp
 Before
 ```r
 human_karyotype <- human_karyotype[1:10,]
-ideogram(karyotype = human_karyotype, overlaid = gene_density, label = Random_RNAs_500)
+ideogram(karyotype = human_karyotype, overlaid = gene_density, label = Random_RNAs_500, label_type = "marker")
 convertSVG("chromosome.svg", device = "png")
 ```
 
@@ -167,7 +167,7 @@ convertSVG("chromosome.svg", device = "png")
 After
 ```r
 human_karyotype <- human_karyotype[1:10,]
-ideogram(karyotype = human_karyotype, overlaid = gene_density, label = Random_RNAs_500, width = 100)
+ideogram(karyotype = human_karyotype, overlaid = gene_density, label = Random_RNAs_500, label_type = "marker", width = 100)
 convertSVG("chromosome.svg", device = "png")
 ```
 
@@ -178,21 +178,65 @@ If you want to move the Legend, then you need to modify the arguments 'Lx' and '
 'Lx' means the distance between upper-left point of the Legend and the left margin; 'Ly' means the distance between upper-left point of the Legend and the upper margin.
 
 ```r
-ideogram(karyotype = human_karyotype, overlaid = gene_density, label = Random_RNAs_500, width = 100, Lx = 80, Ly = 25)
+ideogram(karyotype = human_karyotype, overlaid = gene_density, label = Random_RNAs_500, label_type = "marker", width = 100, Lx = 80, Ly = 25)
 convertSVG("chromosome.svg", device = "png")
 ```
 
 <img src="figures/example9.png" width="100%" />
 
-If you have two sets of heatmap data, such as gene density and LTR density, you can use the following scripts to map and visualize these data in idiograms.
+We also provide other types of label, like "heatmap", "line" and "polygon". For heatmap label, you can use the following scripts to map and visualize these data on idiograms.
 
 ```
 data(human_karyotype, package="RIdeogram") #reload the karyotype data
-ideogram(karyotype = human_karyotype, overlaid = gene_density, label = LTR_density, colorset1 = c("#f7f7f7", "#e34a33"), colorset2 = c("#f7f7f7", "#2c7fb8")) #use the arguments 'colorset1' and 'colorset2' to set the colors for gene and LTR heatmaps, separately.
+ideogram(karyotype = human_karyotype, overlaid = gene_density, label = LTR_density, label_type = "heatmap", colorset1 = c("#f7f7f7", "#e34a33"), colorset2 = c("#f7f7f7", "#2c7fb8")) #use the arguments 'colorset1' and 'colorset2' to set the colors for gene and LTR heatmaps, separately.
 convertSVG("chromosome.svg", device = "png")
 ```
 
 <img src="figures/example10.png" width="100%" />
+
+For one-line label, 
+```
+data(liriodendron_karyotype, package="RIdeogram") #load the karyotype data
+data(Fst_between_CE_and_CW, package="RIdeogram") #load the Fst data for overlaid heatmap
+data(Pi_for_CE, package="RIdeogram") #load the Pi data for one-line label
+ideogram(karyotype = liriodendron_karyotype, overlaid = Fst_between_CE_and_CW, label = Pi_for_CE, label_type = "line", colorset1 = c("#e5f5f9", "#99d8c9", "#2ca25f"))
+convertSVG("chromosome.svg", device = "png")
+```
+
+<img src="figures/example11.png" width="100%" />
+
+For two-line label, 
+```
+data(liriodendron_karyotype, package="RIdeogram") #load the karyotype data
+data(Fst_between_CE_and_CW, package="RIdeogram") #load the Fst data for overlaid heatmap
+data(Pi_for_CE_and_CW, package="RIdeogram") #load the Pi data for two-line label
+ideogram(karyotype = liriodendron_karyotype, overlaid = Fst_between_CE_and_CW, label = Pi_for_CE_and_CW, label_type = "line", colorset1 = c("#e5f5f9", "#99d8c9", "#2ca25f"))
+convertSVG("chromosome.svg", device = "png")
+```
+
+<img src="figures/example12.png" width="100%" />
+
+For one-polygon label, 
+```
+data(liriodendron_karyotype, package="RIdeogram") #load the karyotype data
+data(Fst_between_CE_and_CW, package="RIdeogram") #load the Fst data for overlaid heatmap
+data(Pi_for_CE, package="RIdeogram") #load the Pi data for one-polygon label
+ideogram(karyotype = liriodendron_karyotype, overlaid = Fst_between_CE_and_CW, label = Pi_for_CE, label_type = "polygon", colorset1 = c("#e5f5f9", "#99d8c9", "#2ca25f"))
+convertSVG("chromosome.svg", device = "png")
+```
+
+<img src="figures/example13.png" width="100%" />
+
+For two-polygon label, 
+```
+data(liriodendron_karyotype, package="RIdeogram") #load the karyotype data
+data(Fst_between_CE_and_CW, package="RIdeogram") #load the Fst data for overlaid heatmap
+data(Pi_for_CE_and_CW, package="RIdeogram") #load the Pi data for two-polygon label
+ideogram(karyotype = liriodendron_karyotype, overlaid = Fst_between_CE_and_CW, label = Pi_for_CE_and_CW, label_type = "polygon", colorset1 = c("#e5f5f9", "#99d8c9", "#2ca25f"))
+convertSVG("chromosome.svg", device = "png")
+```
+
+<img src="figures/example14.png" width="100%" />
 
 In addition, you can use the argument "device" (default value is "png")to set the format of output file, such as, "tiff", "pdf", "jpg", etc. And, you can use the argument "dpi" (default value is "300") to set the resolution of the output image file.
 
@@ -208,7 +252,7 @@ svg2jpg("chromosome.svg")
 svg2png("chromosome.svg")
 ```
 
-New features: Now, we can use the `ideogram` function to visualize the genome synteny between two or three genomes.
+For genome synteny analysis, we can use the `ideogram` function to visualize the genome synteny results between two or three genomes.
 
 For dual genome comparison, load the example data first,
 ```{r}
@@ -227,7 +271,7 @@ ideogram(karyotype = karyotype_dual_comparison, synteny = synteny_dual_compariso
 convertSVG("chromosome.svg", device = "png")
 ```
 
-<img src="figures/example11.png" width="100%" />
+<img src="figures/example15.png" width="100%" />
 
 For ternary genome comparison, load the example data first,
 ```{r}
@@ -244,7 +288,7 @@ ideogram(karyotype = karyotype_ternary_comparison, synteny = synteny_ternary_com
 convertSVG("chromosome.svg", device = "png")
 ```
 
-<img src="figures/example12.png" width="100%" />
+<img src="figures/example16.png" width="100%" />
 
 In addition, if you want use gradient color for the bezier curves which you want to highlighted (red lines in the above picture), just replace the red color "e41a1c" with "gradient" in the seventh column (as like in the example data of "synteny_ternary_comparison_graident"). Here, we first load the example data and visualize the ternary genome syteny using `ideogram` function. And since R graphics does not support the SVG element of gradient fill, we use the `rsvg_pdf` function from rsvg package to convert this svg file into a pdf file directly. So, maybe you need to install the rsvg package if you want to show the gradient fill or you can also open the svg file with Inkscape and then save as a pdf file.
 
@@ -254,4 +298,4 @@ ideogram(karyotype = karyotype_ternary_comparison, synteny = synteny_ternary_com
 library("rsvg")
 rsvg_pdf("chromosome.svg", "chromosome.pdf")
 ```
-<img src="figures/example13.png" width="100%" />
+<img src="figures/example17.png" width="100%" />
