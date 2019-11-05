@@ -267,7 +267,11 @@ For genome synteny analysis, we can use the `ideogram` function to visualize the
 For dual genome comparison, load the example data first,
 ```{r}
 data(karyotype_dual_comparison, package="RIdeogram")
+head(karyotype_dual_comparison)
+table(karyotype_dual_comparison$species)
+
 data(synteny_dual_comparison, package="RIdeogram")
+head(karyotype_dual_comparison)
 ```
 
 If you want to import your own data, using `read.table` function as mentioned above. One thing you need to notice is that the format of karyotype for genome synteny visualization is a little bit different:
@@ -286,7 +290,12 @@ convertSVG("chromosome.svg", device = "png")
 For ternary genome comparison, load the example data first,
 ```{r}
 data(karyotype_ternary_comparison, package="RIdeogram")
+head(karyotype_ternary_comparison)
+table(karyotype_ternary_comparison$species)
+
 data(synteny_ternary_comparison, package="RIdeogram")
+head(synteny_ternary_comparison)
+tail(synteny_ternary_comparison, n = 20)
 ```
 
 The format of karyotype file for ternary genome synteny visualization is similar to that of dual genome syteny visualization, containing one more species karyotype information and being sorted in the order of species A (Amborella), B (Grape) and C (Liriodendron). However, the synteny file is different from that of dual genome syteny visualization. Because this synteny file contains three comparisons, i.e., species A_vs_B, species A_vs_C and species B_vs_C, we add one additional column with the number "1" being representative of the species A_vs_B, "2" being representative of the species A_vs_C and "3" being representative of the species B_vs_C. Also, please sort the colourful lines to the last as possiable as you can.
