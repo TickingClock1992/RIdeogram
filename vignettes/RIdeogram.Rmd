@@ -1,5 +1,5 @@
 ---
-title: "RIdeogram: drawing SVG graphics to visualize and map genome-wide data in idiograms"
+title: "RIdeogram: drawing SVG graphics to visualize and map genome-wide data on idiograms"
 author: "Zhaodong Hao"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -18,13 +18,13 @@ knitr::opts_chunk$set(
 
 ## Introduction
 
-RIdeogram is a R package to draw SVG (Scalable Vector Graphics) graphics to visualize and map genome-wide data in idiograms. 
+RIdeogram is a R package to draw SVG (Scalable Vector Graphics) graphics to visualize and map genome-wide data on idiograms. 
 
 ## Citation
 
 If you use this package in a published paper, please cite this paper:
 
-Zhaodong Hao, Dekang Lv, Ying Ge, Jisen Shi, Dolf Weijers, Guangchuang Yu, and Jinhui Chen (2019). RIdeogram: Drawing SVG graphics to visualize and map genome-wide data in idiograms. R package version 0.2.0.
+Zhaodong Hao, Dekang Lv, Ying Ge, Jisen Shi, Dolf Weijers, Guangchuang Yu, and Jinhui Chen (2019). RIdeogram: Drawing SVG graphics to visualize and map genome-wide data on idiograms. R package version 0.2.0.
 
 ## Usage and Examples
 
