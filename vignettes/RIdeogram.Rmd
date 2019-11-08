@@ -186,7 +186,7 @@ convertSVG("chromosome.svg", device = "png")
 
 We also provide other types of label, like "heatmap", "line" and "polygon". For heatmap label, you can use the following scripts to map and visualize these data on idiograms.
 
-```
+```r
 data(human_karyotype, package="RIdeogram") #reload the karyotype data
 ideogram(karyotype = human_karyotype, overlaid = gene_density, label = LTR_density, label_type = "heatmap", colorset1 = c("#f7f7f7", "#e34a33"), colorset2 = c("#f7f7f7", "#2c7fb8")) #use the arguments 'colorset1' and 'colorset2' to set the colors for gene and LTR heatmaps, separately.
 convertSVG("chromosome.svg", device = "png")
@@ -202,7 +202,7 @@ data(Pi_for_CE, package="RIdeogram") #load the Pi data for one-line label
 head(Pi_for_CE) #this data has a similar format with the heatmap data with additional column of "Color" which indicate the color for the line.
 ```
 
-```
+```r
 ideogram(karyotype = liriodendron_karyotype, overlaid = Fst_between_CE_and_CW, label = Pi_for_CE, label_type = "line", colorset1 = c("#e5f5f9", "#99d8c9", "#2ca25f"))
 convertSVG("chromosome.svg", device = "png")
 ```
@@ -217,7 +217,7 @@ data(Pi_for_CE_and_CW, package="RIdeogram") #load the Pi data for two-line label
 head(Pi_for_CE_and_CW) #this data has a similar format with the one for one-line label with additional two columns indicating the second feature you want to show. When you prepare your own data, please keep the exact same column names.
 ```
 
-```
+```r
 ideogram(karyotype = liriodendron_karyotype, overlaid = Fst_between_CE_and_CW, label = Pi_for_CE_and_CW, label_type = "line", colorset1 = c("#e5f5f9", "#99d8c9", "#2ca25f"))
 convertSVG("chromosome.svg", device = "png")
 ```
@@ -225,7 +225,7 @@ convertSVG("chromosome.svg", device = "png")
 <img src="figures/example12.png" width="100%" />
 
 For one-polygon label, 
-```
+```r
 data(liriodendron_karyotype, package="RIdeogram") #load the karyotype data
 data(Fst_between_CE_and_CW, package="RIdeogram") #load the Fst data for overlaid heatmap
 data(Pi_for_CE, package="RIdeogram") #load the Pi data for one-polygon label
@@ -236,7 +236,7 @@ convertSVG("chromosome.svg", device = "png")
 <img src="figures/example13.png" width="100%" />
 
 For two-polygon label, 
-```
+```r
 data(liriodendron_karyotype, package="RIdeogram") #load the karyotype data
 data(Fst_between_CE_and_CW, package="RIdeogram") #load the Fst data for overlaid heatmap
 data(Pi_for_CE_and_CW, package="RIdeogram") #load the Pi data for two-polygon label
@@ -255,7 +255,7 @@ convertSVG("chromosome.svg", device = "tiff", dpi = 600)
 ```
 
 Also, there are four shortcuts to convert the SVG images to these optional image formats with no necessary to set the argument "device", such as
-```
+```r
 svg2tiff("chromosome.svg")
 svg2pdf("chromosome.svg")
 svg2jpg("chromosome.svg")
