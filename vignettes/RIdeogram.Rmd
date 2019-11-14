@@ -271,7 +271,7 @@ head(karyotype_dual_comparison)
 table(karyotype_dual_comparison$species)
 
 data(synteny_dual_comparison, package="RIdeogram")
-head(karyotype_dual_comparison)
+head(synteny_dual_comparison)
 ```
 
 If you want to import your own data, using `read.table` function as mentioned above. One thing you need to notice is that the format of karyotype for genome synteny visualization is a little bit different:
