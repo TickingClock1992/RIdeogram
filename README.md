@@ -22,7 +22,7 @@ devtools::install_github('TickingClock1992/RIdeogram')
 
 To install the package `RIdeogram` from CRAN<br>
 ```
-install.package("RIdeogram")
+install.packages("RIdeogram")
 ```
 
 # Citation
