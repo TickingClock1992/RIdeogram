@@ -27,9 +27,7 @@ install.packages("RIdeogram")
 
 # Citation
 
-Zhaodong Hao, Dekang Lv, Ying Ge, Jisen Shi, Dolf Weijers, Guangchuang Yu, and Jinhui
-Chen (2019). RIdeogram: Drawing SVG graphics to visualize and map
-genome-wide data on idiograms. R package version 0.2.2.
+Hao Z, Lv D, Ge Y, Shi J, Weijers D, Yu G, Chen J. 2020. RIdeogram: drawing SVG graphics to visualize and map genome-wide data on the idiograms. PeerJ Comput. Sci. 6:e251 http://doi.org/10.7717/peerj-cs.251
 
 # Usage
 
