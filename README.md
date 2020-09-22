@@ -35,7 +35,7 @@ https://cran.r-project.org/web/packages/RIdeogram/vignettes/RIdeogram.html
 
 # Maintainer
 
-Zhaodong Hao <haozd1992@163.com> <br>
+Zhaodong Hao <haozd@njfu.edu.cn> <br>
 Key Laboratory of Forest Genetics and Biotechnology, Ministry of Education of China <br>
 College of Forestry, Nanjing Forestry University <br>
 Nanjing 210037, China <br>
